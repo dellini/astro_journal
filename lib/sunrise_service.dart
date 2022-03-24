@@ -2,11 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'date_extensions.dart';
 
-void main() async {
-  getSunriseSunset(latitude: 45.037874, longitude: 38.975054);
-}
-
-Future<Map<String, DateTime>> getSunriseSunset({
+Future<Map<String, DateTime>> requestSunriseSunset({
   required double latitude,
   required double longitude,
   DateTime? date,
@@ -20,7 +16,7 @@ Future<Map<String, DateTime>> getSunriseSunset({
         "date": DateFormat("yyyy-MM-dd").format(targetDate),
       },
     );
-    var response = await Dio().get('https://api.sunrise-sunset.org/json');
+    var response = await Dio().get(url.toString());
     final parser = DateFormat("hh:mm:ss a");
     final sunrise = parser.parse(response.data["results"]["sunrise"]);
     final sunset = parser.parse(response.data["results"]["sunset"]);

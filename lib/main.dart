@@ -23,7 +23,7 @@ class MainPage extends StatelessWidget {
   }
 }
 
-double getDayPlanetHours({
+double computeDayPlanetHours({
   required DateTime sunriseToday,
   required DateTime sunsetToday,
 }) {
@@ -31,7 +31,7 @@ double getDayPlanetHours({
   return diffDayPlanetHours.planetHour;
 }
 
-double getNightPlanetHours({
+double computeNightPlanetHours({
   required DateTime sunriseTomorrow,
   required DateTime sunsetToday,
 }) {
@@ -45,21 +45,34 @@ double getNightPlanetHours({
   return diffNightPlanetHours;
 }
 
-Future<double?> getSunriseTomorrow() async {
-  final sunriseTomorrow = (await getSunriseSunset(
+Future<double?> getNightPlanetHours() async {
+  final sunriseTomorrow = (await requestSunriseSunset(
     latitude: 45.037874,
     longitude: 38.975054,
-    date: DateTime.now().add(
-      const Duration(days: 1),
-    ),
+    date: DateTime.now().add(const Duration(days: 1)),
   ))["sunrise"]!;
-  final sunsetToday = (await getSunriseSunset(
-      latitude: 45.037874, longitude: 38.975054))["sunset"]!;
-  print(sunriseTomorrow);
-  print(sunsetToday);
-  final resultNightPlanetHour = getNightPlanetHours(
+  final sunsetToday = (await requestSunriseSunset(
+    latitude: 45.037874,
+    longitude: 38.975054,
+  ))["sunset"]!;
+  final resultNightPlanetHour = computeNightPlanetHours(
     sunriseTomorrow: sunriseTomorrow,
     sunsetToday: sunsetToday,
   );
   return resultNightPlanetHour;
+}
+
+Future<double?> getDayPlanetHours() async {
+  final sunriseSunset = await requestSunriseSunset(
+    latitude: 45.037874,
+    longitude: 38.975054,
+    date: DateTime.now(),
+  );
+  final sunriseToday = sunriseSunset["sunrise"]!;
+  final sunsetToday = sunriseSunset["sunset"]!;
+  final resultDayPlanetHour = computeDayPlanetHours(
+    sunriseToday: sunriseToday,
+    sunsetToday: sunsetToday,
+  );
+  return resultDayPlanetHour;
 }
