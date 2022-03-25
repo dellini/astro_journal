@@ -1,10 +1,10 @@
+import 'package:astro_journal/date_extensions.dart';
 import 'package:astro_journal/sunrise_service.dart';
 import 'package:flutter/material.dart';
-import 'date_extensions.dart';
 
 void main() {
   runApp(
-    MaterialApp(
+    const MaterialApp(
       home: MainPage(),
     ),
   );
@@ -36,10 +36,10 @@ double computeNightPlanetHours({
   required DateTime sunsetToday,
 }) {
   final sunsetToMidnight = ExtDateTime.midnight.difference(sunsetToday.time);
-  print(sunsetToMidnight);
+
   final midnightToSunrise =
       Duration(hours: sunriseTomorrow.hour, minutes: sunriseTomorrow.minute);
-  print(midnightToSunrise);
+
   final diffNightPlanetHours =
       (sunsetToMidnight + midnightToSunrise).planetHour;
   return diffNightPlanetHours;
@@ -50,11 +50,11 @@ Future<double?> getNightPlanetHours() async {
     latitude: 45.037874,
     longitude: 38.975054,
     date: DateTime.now().add(const Duration(days: 1)),
-  ))["sunrise"]!;
+  ))['sunrise']!;
   final sunsetToday = (await requestSunriseSunset(
     latitude: 45.037874,
     longitude: 38.975054,
-  ))["sunset"]!;
+  ))['sunset']!;
   final resultNightPlanetHour = computeNightPlanetHours(
     sunriseTomorrow: sunriseTomorrow,
     sunsetToday: sunsetToday,
@@ -68,8 +68,8 @@ Future<double?> getDayPlanetHours() async {
     longitude: 38.975054,
     date: DateTime.now(),
   );
-  final sunriseToday = sunriseSunset["sunrise"]!;
-  final sunsetToday = sunriseSunset["sunset"]!;
+  final sunriseToday = sunriseSunset['sunrise']!;
+  final sunsetToday = sunriseSunset['sunset']!;
   final resultDayPlanetHour = computeDayPlanetHours(
     sunriseToday: sunriseToday,
     sunsetToday: sunsetToday,

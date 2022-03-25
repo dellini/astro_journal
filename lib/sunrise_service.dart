@@ -1,6 +1,6 @@
+import 'package:astro_journal/date_extensions.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'date_extensions.dart';
 
 Future<Map<String, DateTime>> requestSunriseSunset({
   required double latitude,
@@ -11,22 +11,36 @@ Future<Map<String, DateTime>> requestSunriseSunset({
     final targetDate = (date ?? DateTime.now()).date;
     final url = Uri.parse('https://api.sunrise-sunset.org/json').replace(
       queryParameters: <String, String>{
-        "lat": latitude.toString(),
-        "lng": longitude.toString(),
-        "date": DateFormat("yyyy-MM-dd").format(targetDate),
+        'lat': latitude.toString(),
+        'lng': longitude.toString(),
+        'date': DateFormat('yyyy-MM-dd').format(targetDate),
       },
     );
-    var response = await Dio().get(url.toString());
-    final parser = DateFormat("hh:mm:ss a");
-    final sunrise = parser.parse(response.data["results"]["sunrise"]);
-    final sunset = parser.parse(response.data["results"]["sunset"]);
+    final responseData =
+        (await Dio().get<dynamic>(url.toString())).data as Map<String, dynamic>;
+    final data = responseData['results'] as Map<String, dynamic>;
+
+    final parser = DateFormat('hh:mm:ss a');
+    final sunrise = parser.parse(data['sunrise'] as String);
+    final sunset = parser.parse(data['sunset'] as String);
     return {
-      "sunrise": DateTime(targetDate.year, targetDate.month, targetDate.day,
-          sunrise.hour, sunrise.minute),
-      "sunset": DateTime(targetDate.year, targetDate.month, targetDate.day,
-          sunset.hour, sunset.minute),
+      'sunrise': DateTime(
+        targetDate.year,
+        targetDate.month,
+        targetDate.day,
+        sunrise.hour,
+        sunrise.minute,
+      ),
+      'sunset': DateTime(
+        targetDate.year,
+        targetDate.month,
+        targetDate.day,
+        sunset.hour,
+        sunset.minute,
+      ),
     };
-  } catch (e) {
+  } on Exception catch (e) {
+    // ignore: avoid_print
     print(e);
   }
   return {};
