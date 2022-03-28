@@ -30,6 +30,7 @@ dependencies:
   dio: ^4.0.4
   intl: ^0.17.0
   surf_lint_rules: ^1.5.0
+  lat_lng_to_timezone: ^0.2.0
 
   flutter:
     sdk: flutter

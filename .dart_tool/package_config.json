@@ -164,6 +164,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "lat_lng_to_timezone",
+      "rootUri": "file:///C:/Users/Admin/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/lat_lng_to_timezone-0.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "lints",
       "rootUri": "file:///C:/Users/Admin/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/lints-1.0.1",
       "packageUri": "lib/",
@@ -296,7 +302,7 @@
       "languageVersion": "2.15"
     }
   ],
-  "generated": "2022-03-25T17:15:55.966379Z",
+  "generated": "2022-03-26T12:47:57.232531Z",
   "generator": "pub",
   "generatorVersion": "2.16.1"
 }

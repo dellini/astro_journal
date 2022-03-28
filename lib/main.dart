@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:astro_journal/date_extensions.dart';
 import 'package:astro_journal/sunrise_service.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +47,66 @@ double computeNightPlanetHours({
   return diffNightPlanetHours;
 }
 
+enum ComputeType {
+  day,
+  night,
+}
+
+class ComputeResult {
+  final ComputeType type;
+  final DateTime startDateTime;
+  final List<PlanetHourDuration> hours;
+
+  ComputeResult({
+    required this.type,
+    required this.startDateTime,
+    this.hours = const [],
+  });
+}
+
+class PlanetHourDuration {
+  final DateTime begin;
+  final DateTime end;
+  final String planetName;
+
+  PlanetHourDuration({
+    required this.begin,
+    required this.end,
+    required this.planetName,
+  });
+}
+
+ComputeResult calculatePlanetHoursInPeriod({
+  required DateTime startTime,
+  required double hourDuration,
+  bool isNight = false,
+  int weekday = 1,
+}) {
+  final hours = <PlanetHourDuration>[];
+  var currentDateTime = startTime;
+  final planetHourInMicroseconds = (hourDuration * 60000000).toInt();
+
+  for (var i = weekday; i <= weekday + 12; i++) {
+    final newDateTime =
+        currentDateTime.add(Duration(microseconds: planetHourInMicroseconds));
+
+    hours.add(PlanetHourDuration(
+      begin: currentDateTime,
+      end: newDateTime,
+      planetName: weekdayPlanets[i % 7] ?? '',
+    ));
+
+    currentDateTime = newDateTime;
+  }
+
+  final result = ComputeResult(
+    type: isNight ? ComputeType.night : ComputeType.day,
+    startDateTime: startTime,
+    hours: hours,
+  );
+  return result;
+}
+
 Future<double?> getNightPlanetHours() async {
   final sunriseTomorrow = (await requestSunriseSunset(
     latitude: 45.037874,
@@ -76,3 +138,33 @@ Future<double?> getDayPlanetHours() async {
   );
   return resultDayPlanetHour;
 }
+
+//final structureData = DateTime.parse('2022-03-26');
+//DateTime getStructureDate(DateTime d) => DateTime(d.year, d.month, d.day);
+
+final now = DateTime.now();
+String dateNow = DateTime(
+  now.year,
+  now.month,
+  now.weekday,
+).toString();
+
+List<String> weekdayNames = [
+  'Воскресенье',
+  'Понедельник',
+  'Вторник',
+  'Среда',
+  'Четверг',
+  'Пятница',
+  'Суббота',
+];
+
+Map<int, String> weekdayPlanets = {
+  0: 'Солнце',
+  1: 'Луна',
+  2: 'Марс',
+  3: 'Меркурий',
+  4: 'Юпитер',
+  5: 'Венера',
+  6: 'Сатурн',
+};
