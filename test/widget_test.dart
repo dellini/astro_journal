@@ -18,12 +18,24 @@ void main() {
     debugPrint((await getDayPlanetHours()).toString());
   });
 
-//   test("Расчёт часов", () async {
-//     final nightPlanetHour = await getNightPlanetHours();
-//     final dayPlanetHour = await getDayPlanetHours();
-//     final resultNight = calculatePlanetHoursInPeriod(
-//       startTime: requestSunriseSunset,
-//     );
-//     final resultDay = calculatePlanetHoursInPeriod();
-//   });
+  test("Расчёт часов", () async {
+    final nightPlanetHour = await getNightPlanetHours();
+    final dayPlanetHour = await getDayPlanetHours();
+    final resultNight = calculatePlanetHoursInPeriod(
+      startTime: nightPlanetHour.key,
+      hourDuration: nightPlanetHour.value,
+      isNight: true,
+      weekday: nightPlanetHour.key.weekday,
+      localeOffset: const Duration(hours: 3),
+    );
+    final resultDay = calculatePlanetHoursInPeriod(
+      startTime: dayPlanetHour.key,
+      hourDuration: dayPlanetHour.value,
+      weekday: dayPlanetHour.key.weekday,
+      localeOffset: const Duration(hours: 3),
+    );
+    debugPrint(resultDay.toString());
+    debugPrint('\n');
+    debugPrint(resultNight.toString());
+  });
 }

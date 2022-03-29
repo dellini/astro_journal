@@ -62,6 +62,12 @@ class ComputeResult {
     required this.startDateTime,
     this.hours = const [],
   });
+  @override
+  String toString() {
+    return 'Тип: $type, '
+        '${type == ComputeType.day ? 'Восход солнца' : 'Заход солнца'}: $startDateTime,'
+        '\nРасчёт часов: \n${hours.join('\n')}';
+  }
 }
 
 class PlanetHourDuration {
@@ -74,6 +80,10 @@ class PlanetHourDuration {
     required this.end,
     required this.planetName,
   });
+  @override
+  String toString() {
+    return 'Начало: $begin, Конец: $end, Планета: $planetName';
+  }
 }
 
 ComputeResult calculatePlanetHoursInPeriod({
@@ -81,9 +91,16 @@ ComputeResult calculatePlanetHoursInPeriod({
   required double hourDuration,
   bool isNight = false,
   int weekday = 1,
+  Duration localeOffset = Duration.zero,
 }) {
+  if (weekday > 7 || weekday < 1) {
+    throw Exception(
+      'День недели не может быть отрицательным, а неделя не может иметь больше 7 дней.',
+    );
+  }
+
   final hours = <PlanetHourDuration>[];
-  var currentDateTime = startTime;
+  var currentDateTime = startTime.add(localeOffset);
   final planetHourInMicroseconds = (hourDuration * 60000000).toInt();
 
   for (var i = weekday; i <= weekday + 12; i++) {
@@ -101,13 +118,13 @@ ComputeResult calculatePlanetHoursInPeriod({
 
   final result = ComputeResult(
     type: isNight ? ComputeType.night : ComputeType.day,
-    startDateTime: startTime,
+    startDateTime: startTime.add(localeOffset),
     hours: hours,
   );
   return result;
 }
 
-Future<double?> getNightPlanetHours() async {
+Future<MapEntry<DateTime, double>> getNightPlanetHours() async {
   final sunriseTomorrow = (await requestSunriseSunset(
     latitude: 45.037874,
     longitude: 38.975054,
@@ -121,10 +138,10 @@ Future<double?> getNightPlanetHours() async {
     sunriseTomorrow: sunriseTomorrow,
     sunsetToday: sunsetToday,
   );
-  return resultNightPlanetHour;
+  return MapEntry(sunsetToday, resultNightPlanetHour);
 }
 
-Future<double?> getDayPlanetHours() async {
+Future<MapEntry<DateTime, double>> getDayPlanetHours() async {
   final sunriseSunset = await requestSunriseSunset(
     latitude: 45.037874,
     longitude: 38.975054,
@@ -136,7 +153,7 @@ Future<double?> getDayPlanetHours() async {
     sunriseToday: sunriseToday,
     sunsetToday: sunsetToday,
   );
-  return resultDayPlanetHour;
+  return MapEntry(sunriseToday, resultDayPlanetHour);
 }
 
 //final structureData = DateTime.parse('2022-03-26');
