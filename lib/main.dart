@@ -64,8 +64,7 @@ class ComputeResult {
   });
   @override
   String toString() {
-    return 'Тип: $type, '
-        '${type == ComputeType.day ? 'Восход солнца' : 'Заход солнца'}: $startDateTime,'
+    return '${type == ComputeType.day ? 'Восход солнца' : 'Заход солнца'}: $startDateTime,'
         '\nРасчёт часов: \n${hours.join('\n')}';
   }
 }
@@ -82,7 +81,7 @@ class PlanetHourDuration {
   });
   @override
   String toString() {
-    return 'Начало: $begin, Конец: $end, Планета: $planetName';
+    return 'Начало часа: $begin, Конец часа: $end, Планета: $planetName';
   }
 }
 
@@ -155,26 +154,6 @@ Future<MapEntry<DateTime, double>> getDayPlanetHours() async {
   );
   return MapEntry(sunriseToday, resultDayPlanetHour);
 }
-
-//final structureData = DateTime.parse('2022-03-26');
-//DateTime getStructureDate(DateTime d) => DateTime(d.year, d.month, d.day);
-
-final now = DateTime.now();
-String dateNow = DateTime(
-  now.year,
-  now.month,
-  now.weekday,
-).toString();
-
-List<String> weekdayNames = [
-  'Воскресенье',
-  'Понедельник',
-  'Вторник',
-  'Среда',
-  'Четверг',
-  'Пятница',
-  'Суббота',
-];
 
 Map<int, String> weekdayPlanets = {
   0: 'Солнце',

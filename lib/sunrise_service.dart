@@ -1,5 +1,4 @@
 import 'package:astro_journal/date_extensions.dart';
-import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 
