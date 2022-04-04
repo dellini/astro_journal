@@ -1,7 +1,8 @@
+import 'package:astro_journal/main.dart';
 import 'package:astro_journal/sunrise_service.dart';
+import 'package:astro_journal/tarot_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:astro_journal/main.dart';
 
 void main() {
   test("Запрос к API", () async {
@@ -37,5 +38,8 @@ void main() {
     debugPrint(resultDay.toString());
     debugPrint('\n');
     debugPrint(resultNight.toString());
+  });
+  test('Случайная карта', () async {
+    debugPrint((await getRandomTarotCard()).toString());
   });
 }
