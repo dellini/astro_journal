@@ -1,13 +1,27 @@
 import 'dart:async';
 
+import 'package:astro_journal/data/planet_hours.dart';
+import 'package:astro_journal/data/tarot_card.dart';
 import 'package:astro_journal/date_extensions.dart';
 import 'package:astro_journal/sunrise_service.dart';
+import 'package:astro_journal/tarot_service.dart';
+import 'package:astro_journal/ui/daily_card_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(
-    const MaterialApp(
-      home: MainPage(),
+    MaterialApp(
+      home: FutureBuilder<TarotCard?>(
+        future: getRandomTarotCard(),
+        builder: (context, snapshot) {
+          if (snapshot.data == null) {
+            return const SizedBox();
+          }
+          return DailyCardScreen(
+            tarotCard: snapshot.data!,
+          );
+        },
+      ),
     ),
   );
 }
@@ -47,45 +61,7 @@ double computeNightPlanetHours({
   return diffNightPlanetHours;
 }
 
-enum ComputeType {
-  day,
-  night,
-}
-
-class ComputeResult {
-  final ComputeType type;
-  final DateTime startDateTime;
-  final List<PlanetHourDuration> hours;
-
-  ComputeResult({
-    required this.type,
-    required this.startDateTime,
-    this.hours = const [],
-  });
-  @override
-  String toString() {
-    return '${type == ComputeType.day ? 'Восход солнца' : 'Заход солнца'}: $startDateTime,'
-        '\nРасчёт часов: \n${hours.join('\n')}';
-  }
-}
-
-class PlanetHourDuration {
-  final DateTime begin;
-  final DateTime end;
-  final String planetName;
-
-  PlanetHourDuration({
-    required this.begin,
-    required this.end,
-    required this.planetName,
-  });
-  @override
-  String toString() {
-    return 'Начало часа: $begin, Конец часа: $end, Планета: $planetName';
-  }
-}
-
-ComputeResult calculatePlanetHoursInPeriod({
+PlanetHourComputeResult calculatePlanetHoursInPeriod({
   required DateTime startTime,
   required double hourDuration,
   bool isNight = false,
@@ -115,7 +91,7 @@ ComputeResult calculatePlanetHoursInPeriod({
     currentDateTime = newDateTime;
   }
 
-  final result = ComputeResult(
+  final result = PlanetHourComputeResult(
     type: isNight ? ComputeType.night : ComputeType.day,
     startDateTime: startTime.add(localeOffset),
     hours: hours,
@@ -154,13 +130,3 @@ Future<MapEntry<DateTime, double>> getDayPlanetHours() async {
   );
   return MapEntry(sunriseToday, resultDayPlanetHour);
 }
-
-Map<int, String> weekdayPlanets = {
-  0: 'Солнце',
-  1: 'Луна',
-  2: 'Марс',
-  3: 'Меркурий',
-  4: 'Юпитер',
-  5: 'Венера',
-  6: 'Сатурн',
-};
