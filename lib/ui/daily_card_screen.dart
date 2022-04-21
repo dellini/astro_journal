@@ -21,20 +21,8 @@ class DailyCardScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
+          fit: StackFit.expand,
           children: [
-            // ListView(
-            //   children: [
-            //     Container(
-            //       decoration: BoxDecoration(
-            //         borderRadius: BorderRadius.circular(16),
-            //       ),
-            //     ),
-            //     Text(
-            //       tarotCard.toString(),
-            //       style: const TextStyle(color: Colors.white),
-            //     ),
-            //   ],
-            // ),
             Positioned(
               bottom: 0,
               child: ClipRRect(
@@ -62,6 +50,31 @@ class DailyCardScreen extends StatelessWidget {
                       Colors.white,
                     ],
                   ),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: MediaQuery.of(context).size.height * 0.25 - 75,
+              height: 156,
+              child: Container(
+                alignment: Alignment.center,
+                width: MediaQuery.of(context).size.width,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      const Color.fromARGB(255, 41, 41, 41),
+                    ),
+                    fixedSize: MaterialStateProperty.all(
+                      const Size(156, 156),
+                    ),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(150),
+                      ),
+                    ),
+                  ),
+                  child: const Text('Получить\nкарту дня'),
                 ),
               ),
             ),
