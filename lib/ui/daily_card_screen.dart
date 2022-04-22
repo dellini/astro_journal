@@ -65,6 +65,7 @@ class DailyCardScreen extends StatelessWidget {
                     backgroundColor: MaterialStateProperty.all(
                       const Color.fromARGB(255, 41, 41, 41),
                     ),
+                    elevation: MaterialStateProperty.all(10),
                     fixedSize: MaterialStateProperty.all(
                       const Size(156, 156),
                     ),
@@ -74,7 +75,28 @@ class DailyCardScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  child: const Text('Получить\nкарту дня'),
+                  child: const Text(
+                    'ПОЛУЧИТЬ\nКАРТУ ДНЯ',
+                    style: TextStyle(
+                      fontFamily: 'TenorSans',
+                      fontSize: 19,
+                      color: Colors.amberAccent,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 16,
+              top: 16,
+              child: SafeArea(
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: Colors.amberAccent,
+                  ),
                 ),
               ),
             ),
