@@ -10,33 +10,10 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(
-    MaterialApp(
-      home: FutureBuilder<TarotCard?>(
-        future: getRandomTarotCard(),
-        builder: (context, snapshot) {
-          if (snapshot.data == null) {
-            return const SizedBox();
-          }
-          return DailyCardScreen(
-            tarotCard: snapshot.data!,
-          );
-        },
-      ),
+    const MaterialApp(
+      home: DailyCardScreen(),
     ),
   );
-}
-
-class MainPage extends StatelessWidget {
-  const MainPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [],
-      ),
-    );
-  }
 }
 
 double computeDayPlanetHours({
