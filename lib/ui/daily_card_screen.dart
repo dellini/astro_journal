@@ -5,6 +5,7 @@ import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class DailyCardScreen extends StatefulWidget {
   const DailyCardScreen({
@@ -149,7 +150,8 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                     left: MediaQuery.of(context).size.width * 0.2,
                     right: MediaQuery.of(context).size.width * 0.2,
                     top: MediaQuery.of(context).size.height * 0.12,
-                    child: Image(
+                    child: FadeInImage(
+                      placeholder: MemoryImage(kTransparentImage),
                       image: FirebaseImage(state.dailyCard.imageUrl),
                       width: MediaQuery.of(context).size.width * 0.5,
                       height: MediaQuery.of(context).size.height * 0.45,
