@@ -1,5 +1,6 @@
 import 'package:astro_journal/data/tarot_card.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 Future<TarotCard?> getRandomTarotCard() async {
   try {
@@ -18,5 +19,18 @@ Future<TarotCard?> getRandomTarotCard() async {
   } on Exception catch (e) {
     // ignore: avoid_print
     print(e);
+  }
+}
+
+Future<String> getTarotImage({
+  required FirebaseStorage storage,
+  required String tarotImageKey,
+}) async {
+  try {
+    final ref = storage.ref().child('tarot/$tarotImageKey.jpg');
+    final url = ref.getDownloadURL();
+    return url;
+  } catch (_) {
+    return '';
   }
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "4872948844",
+    "project_id": "astrojournal-2b048",
+    "storage_bucket": "astrojournal-2b048.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4872948844:android:12ab614bda9615e776dc49",
+        "android_client_info": {
+          "package_name": "dev.dellini.astro_journal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "4872948844-qbef231eortuan07746qtl2vp56segla.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcq6fs4BJ5j4usFXWIXHu2Z6byTFMnjRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "4872948844-qbef231eortuan07746qtl2vp56segla.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

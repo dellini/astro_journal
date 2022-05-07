@@ -1,7 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dev.dellini.astro_journal">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="astro_journal"
+        android:label="AstroJournal"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -3,12 +3,19 @@ import 'dart:async';
 import 'package:astro_journal/data/planet_hours.dart';
 import 'package:astro_journal/data/tarot_card.dart';
 import 'package:astro_journal/date_extensions.dart';
+import 'package:astro_journal/firebase_options.dart';
 import 'package:astro_journal/sunrise_service.dart';
 import 'package:astro_journal/tarot_service.dart';
 import 'package:astro_journal/ui/daily_card_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
     const MaterialApp(
       home: DailyCardScreen(),

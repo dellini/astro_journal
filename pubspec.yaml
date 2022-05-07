@@ -34,6 +34,9 @@ dependencies:
   glassmorphism: ^3.0.0
   bloc: ^8.0.3
   flutter_bloc: ^8.0.1
+  firebase_core: ^1.16.0
+  firebase_storage: ^10.2.15
+  firebase_image: ^1.1.1
 
   flutter:
     sdk: flutter

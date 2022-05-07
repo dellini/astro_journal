@@ -6,6 +6,7 @@ class TarotCard {
   final int valueInt;
   final String meaning;
   final String desc;
+  final String imageUrl;
 
   String get arcane => type == 'major' ? 'Старший' : 'Младший';
 
@@ -17,6 +18,7 @@ class TarotCard {
     required this.valueInt,
     required this.meaning,
     required this.desc,
+    this.imageUrl = '',
   });
 
   factory TarotCard.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,20 @@ class TarotCard {
       valueInt: json['value_int'] as int,
       meaning: json['meaning_up'] as String,
       desc: json['desc'] as String,
+      imageUrl: json['image_url'] as String? ?? '',
+    );
+  }
+
+  TarotCard copyWith({String? imageUrl}) {
+    return TarotCard(
+      type: type,
+      nameShort: nameShort,
+      name: name,
+      value: value,
+      valueInt: valueInt,
+      meaning: meaning,
+      desc: desc,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 

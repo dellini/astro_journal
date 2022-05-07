@@ -1,6 +1,7 @@
 import 'package:astro_journal/data/tarot_card.dart';
 import 'package:astro_journal/tarot_service.dart';
 import 'package:astro_journal/ui/daily_card_cubit.dart';
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,7 +37,7 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/background.png'),
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
             ),
           ),
           child: Scaffold(
@@ -98,14 +99,20 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                           ),
                         ),
                         //ignore:avoid-returning-widgets
-                        child: buildButton(state),
+                        child: _GetTarotButton(
+                          state: state,
+                          style: _textStyle,
+                        ),
                       ),
                     ),
                   ),
                 if (state is DailyCardResult)
                   Positioned(
                     //ignore:avoid-returning-widgets
-                    child: buildContent(state.dailyCard),
+                    child: _TarotCardDescription(
+                      card: state.dailyCard,
+                      style: _textStyle,
+                    ),
                     bottom: 0,
                     height: MediaQuery.of(context).size.height * 0.4,
                     left: 0,
@@ -137,6 +144,17 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                     ),
                   ),
                 ),
+                if (state is DailyCardResult)
+                  Positioned(
+                    left: MediaQuery.of(context).size.width * 0.2,
+                    right: MediaQuery.of(context).size.width * 0.2,
+                    top: MediaQuery.of(context).size.height * 0.12,
+                    child: Image(
+                      image: FirebaseImage(state.dailyCard.imageUrl),
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      height: MediaQuery.of(context).size.height * 0.45,
+                    ),
+                  ),
               ],
             ),
           ),
@@ -144,8 +162,47 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
       },
     );
   }
+}
 
-  Widget buildContent(TarotCard randomCard) {
+class _GetTarotButton extends StatelessWidget {
+  final DailyCardState state;
+  final TextStyle? style;
+
+  const _GetTarotButton({
+    Key? key,
+    required this.state,
+    this.style,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (state is DailyCardInitial) {
+      return Text(
+        'ПОЛУЧИТЬ\nКАРТУ ДНЯ',
+        style: style,
+        textAlign: TextAlign.center,
+      );
+    } else if (state is DailyCardInProgress) {
+      return const CircularProgressIndicator(
+        color: Colors.amberAccent,
+      );
+    } else {
+      return const SizedBox();
+    }
+  }
+}
+
+class _TarotCardDescription extends StatelessWidget {
+  final TarotCard card;
+  final TextStyle? style;
+  const _TarotCardDescription({
+    Key? key,
+    required this.card,
+    this.style,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     const textColor = Colors.amberAccent;
     const textWeight = FontWeight.bold;
     const shadows = <Shadow>[
@@ -167,16 +224,16 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
         child: Column(
           children: [
             Text(
-              'Аркан: ${randomCard.arcane}',
-              style: _textStyle.copyWith(
+              'Аркан: ${card.arcane}',
+              style: style?.copyWith(
                 color: textColor,
                 fontWeight: textWeight,
                 shadows: shadows,
               ),
             ),
             Text(
-              'Название: ${randomCard.name}',
-              style: _textStyle.copyWith(
+              'Название: ${card.name}',
+              style: style?.copyWith(
                 color: textColor,
                 fontWeight: textWeight,
                 shadows: shadows,
@@ -184,8 +241,8 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              randomCard.meaning,
-              style: _textStyle.copyWith(
+              card.meaning,
+              style: style?.copyWith(
                 color: Color.fromARGB(192, 16, 16, 16),
                 fontWeight: FontWeight.lerp(
                   FontWeight.w500,
@@ -198,21 +255,5 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
         ),
       ),
     );
-  }
-
-  Widget buildButton(DailyCardState state) {
-    if (state is DailyCardInitial) {
-      return const Text(
-        'ПОЛУЧИТЬ\nКАРТУ ДНЯ',
-        style: _textStyle,
-        textAlign: TextAlign.center,
-      );
-    } else if (state is DailyCardInProgress) {
-      return const CircularProgressIndicator(
-        color: Colors.amberAccent,
-      );
-    } else {
-      return const SizedBox();
-    }
   }
 }
