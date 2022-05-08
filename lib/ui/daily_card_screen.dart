@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class DailyCardScreen extends StatefulWidget {
   const DailyCardScreen({
@@ -16,13 +17,20 @@ class DailyCardScreen extends StatefulWidget {
   State<DailyCardScreen> createState() => _DailyCardScreenState();
 }
 
+const _textStyle = TextStyle(
+  fontFamily: 'TenorSans',
+  fontSize: 16,
+  color: Colors.amberAccent,
+);
+
 class _DailyCardScreenState extends State<DailyCardScreen> {
-  static const _textStyle = TextStyle(
-    fontFamily: 'TenorSans',
-    fontSize: 16,
-    color: Colors.amberAccent,
-  );
   late final cubit = DailyCardCubit();
+  @override
+  void initState() {
+    super.initState();
+    FlutterNativeSplash.remove();
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -34,7 +42,7 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
     return BlocBuilder<DailyCardCubit, DailyCardState>(
       bloc: cubit,
       builder: (context, state) {
-        return Container(
+        return DecoratedBox(
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/images/background.png'),
