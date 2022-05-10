@@ -1,3 +1,4 @@
+import 'package:astro_journal/affirmation_service.dart';
 import 'package:astro_journal/main.dart';
 import 'package:astro_journal/sunrise_service.dart';
 import 'package:astro_journal/tarot_service.dart';
@@ -42,4 +43,11 @@ void main() {
   test('Случайная карта', () async {
     debugPrint((await getRandomTarotCard()).toString());
   });
+
+  test(
+    'Аффирмация дня',
+    () async {
+      debugPrint((await getRandomAffirmation()).toString());
+    },
+  );
 }

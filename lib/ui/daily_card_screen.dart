@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transparent_image/transparent_image.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class DailyCardScreen extends StatefulWidget {
   const DailyCardScreen({
@@ -28,7 +27,6 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
   @override
   void initState() {
     super.initState();
-    FlutterNativeSplash.remove();
   }
 
   @override
@@ -179,8 +177,8 @@ class _GetTarotButton extends StatelessWidget {
   final TextStyle? style;
 
   const _GetTarotButton({
-    Key? key,
     required this.state,
+    Key? key,
     this.style,
   }) : super(key: key);
 
@@ -206,8 +204,8 @@ class _TarotCardDescription extends StatelessWidget {
   final TarotCard card;
   final TextStyle? style;
   const _TarotCardDescription({
-    Key? key,
     required this.card,
+    Key? key,
     this.style,
   }) : super(key: key);
 
