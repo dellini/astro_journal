@@ -27,15 +27,16 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  dio: ^4.0.4
-  intl: ^0.17.0
-  surf_lint_rules: ^1.5.0
-  glassmorphism: ^3.0.0
   bloc: ^8.0.3
-  flutter_bloc: ^8.0.1
+  dio: ^4.0.4
   firebase_core: ^1.16.0
-  firebase_storage: ^10.2.15
   firebase_image: ^1.1.1
+  firebase_storage: ^10.2.15
+  flutter_bloc: ^8.0.1
+  glassmorphism: ^3.0.0
+  intl: ^0.17.0
+  shared_preferences: ^2.0.15
+  surf_lint_rules: ^1.5.0
   transparent_image: ^2.0.0
 
   flutter:
@@ -88,6 +89,9 @@ flutter:
     - family: TenorSans
       fonts:
         - asset: assets/fonts/TenorSans-Regular.ttf
+    - family: Comfortaa
+      fonts:
+        - asset: assets/fonts/Comfortaa-Regular.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

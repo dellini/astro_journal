@@ -20,6 +20,7 @@ Future<TarotCard?> getRandomTarotCard() async {
     // ignore: avoid_print
     print(e);
   }
+  return null;
 }
 
 Future<String> getTarotImage({
@@ -30,6 +31,7 @@ Future<String> getTarotImage({
     final ref = storage.ref().child('tarot/$tarotImageKey.jpg');
     final url = ref.getDownloadURL();
     return url;
+    // ignore: avoid_catches_without_on_clauses
   } catch (_) {
     return '';
   }

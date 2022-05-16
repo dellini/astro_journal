@@ -1,26 +1,26 @@
-import 'package:astro_journal/affirmation_service.dart';
-import 'package:astro_journal/main.dart';
-import 'package:astro_journal/sunrise_service.dart';
-import 'package:astro_journal/tarot_service.dart';
+import 'package:astro_journal/services/affirmation_service.dart';
+import 'package:astro_journal/services/api_requests_service.dart';
+import 'package:astro_journal/services/planet_hours_service.dart';
+import 'package:astro_journal/services/tarot_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test("Запрос к API", () async {
+  test('Запрос к API', () async {
     debugPrint((await requestSunriseSunset(
       latitude: 45.037874,
       longitude: 38.975054,
     ))
         .toString());
   });
-  test("Ночной планетарный час", () async {
+  test('Ночной планетарный час', () async {
     debugPrint((await getNightPlanetHours()).toString());
   });
-  test("Дневной планетарный час", () async {
+  test('Дневной планетарный час', () async {
     debugPrint((await getDayPlanetHours()).toString());
   });
 
-  test("Расчёт часов", () async {
+  test('Расчёт часов', () async {
     final nightPlanetHour = await getNightPlanetHours();
     final dayPlanetHour = await getDayPlanetHours();
     final resultNight = calculatePlanetHoursInPeriod(

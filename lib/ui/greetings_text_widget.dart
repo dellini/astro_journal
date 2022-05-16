@@ -36,14 +36,27 @@ class _GreetingsTextWidgetState extends State<GreetingsTextWidget> {
 
   @override
   Widget build(BuildContext context) {
+    late final String greetingsText;
     if (timeOfDay == _TimeOfDay.night) {
-      return const Text('Доброй ночи!');
+      greetingsText = 'Доброй ночи!';
     } else if (timeOfDay == _TimeOfDay.morning) {
-      return const Text('Доброе утро!');
+      greetingsText = 'Доброе утро!';
     } else if (timeOfDay == _TimeOfDay.afternoon) {
-      return const Text('Добрый день!');
+      greetingsText = 'Добрый день!';
     } else {
-      return const Text('Добрый вечер!');
+      greetingsText = 'Добрый вечер!';
     }
+    return Text(
+      greetingsText,
+      style: _textStyle,
+      textAlign: TextAlign.center,
+    );
   }
 }
+
+const _textStyle = TextStyle(
+  fontFamily: 'TenorSans',
+  fontSize: 30,
+  fontWeight: FontWeight.bold,
+  color: Colors.amberAccent,
+);

@@ -34,6 +34,11 @@ class TarotCard {
     );
   }
 
+  @override
+  String toString() {
+    return 'Аркан: $arcane, Название: $name, Значение карты: $meaning';
+  }
+
   TarotCard copyWith({String? imageUrl}) {
     return TarotCard(
       type: type,
@@ -45,10 +50,5 @@ class TarotCard {
       desc: desc,
       imageUrl: imageUrl ?? this.imageUrl,
     );
-  }
-
-  @override
-  String toString() {
-    return 'Аркан: $arcane, Название: $name, Значение карты: $meaning';
   }
 }

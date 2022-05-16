@@ -1,10 +1,10 @@
 import 'package:astro_journal/data/tarot_card.dart';
-import 'package:astro_journal/tarot_service.dart';
+import 'package:astro_journal/ui/bouncing_button.dart';
 import 'package:astro_journal/ui/daily_card_cubit.dart';
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
-import 'package:glassmorphism/glassmorphism.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:glassmorphism/glassmorphism.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class DailyCardScreen extends StatefulWidget {
@@ -89,26 +89,28 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                     child: Container(
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
-                      child: ElevatedButton(
-                        onPressed: cubit.getRandomCard,
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                            const Color.fromARGB(255, 41, 41, 41),
-                          ),
-                          elevation: MaterialStateProperty.all(10),
-                          fixedSize: MaterialStateProperty.all(
-                            const Size(156, 156),
-                          ),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(150),
+                      child: BouncingWidget(
+                        child: ElevatedButton(
+                          onPressed: cubit.getRandomCard,
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              const Color.fromARGB(255, 41, 41, 41),
+                            ),
+                            elevation: MaterialStateProperty.all(10),
+                            fixedSize: MaterialStateProperty.all(
+                              const Size(156, 156),
+                            ),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(150),
+                              ),
                             ),
                           ),
-                        ),
-                        //ignore:avoid-returning-widgets
-                        child: _GetTarotButton(
-                          state: state,
-                          style: _textStyle,
+                          //ignore:avoid-returning-widgets
+                          child: _GetTarotButton(
+                            state: state,
+                            style: _textStyle,
+                          ),
                         ),
                       ),
                     ),
@@ -130,7 +132,9 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                   top: 16,
                   child: SafeArea(
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
                       icon: const Icon(
                         Icons.arrow_back_rounded,
                         color: Colors.amberAccent,
@@ -251,7 +255,8 @@ class _TarotCardDescription extends StatelessWidget {
             Text(
               card.meaning,
               style: style?.copyWith(
-                color: Color.fromARGB(192, 16, 16, 16),
+                fontFamily: 'Comfortaa',
+                color: const Color.fromARGB(192, 16, 16, 16),
                 fontWeight: FontWeight.lerp(
                   FontWeight.w500,
                   FontWeight.w700,

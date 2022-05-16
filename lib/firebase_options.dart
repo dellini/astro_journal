@@ -15,6 +15,24 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyAcq6fs4BJ5j4usFXWIXHu2Z6byTFMnjRc',
+    appId: '1:4872948844:android:12ab614bda9615e776dc49',
+    messagingSenderId: '4872948844',
+    projectId: 'astrojournal-2b048',
+    storageBucket: 'astrojournal-2b048.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyAbkfEGbuxThSneU3nvCOXTmhnwJ-z1STE',
+    appId: '1:4872948844:ios:c96c4c8788617f0176dc49',
+    messagingSenderId: '4872948844',
+    projectId: 'astrojournal-2b048',
+    storageBucket: 'astrojournal-2b048.appspot.com',
+    iosClientId:
+        '4872948844-094avoafug9u4gtrehnk2mlsqtse9h9s.apps.googleusercontent.com',
+    iosBundleId: 'dev.dellini.astroJournal',
+  );
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       throw UnsupportedError(
@@ -38,22 +56,4 @@ class DefaultFirebaseOptions {
         );
     }
   }
-
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAcq6fs4BJ5j4usFXWIXHu2Z6byTFMnjRc',
-    appId: '1:4872948844:android:12ab614bda9615e776dc49',
-    messagingSenderId: '4872948844',
-    projectId: 'astrojournal-2b048',
-    storageBucket: 'astrojournal-2b048.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAbkfEGbuxThSneU3nvCOXTmhnwJ-z1STE',
-    appId: '1:4872948844:ios:c96c4c8788617f0176dc49',
-    messagingSenderId: '4872948844',
-    projectId: 'astrojournal-2b048',
-    storageBucket: 'astrojournal-2b048.appspot.com',
-    iosClientId: '4872948844-094avoafug9u4gtrehnk2mlsqtse9h9s.apps.googleusercontent.com',
-    iosBundleId: 'dev.dellini.astroJournal',
-  );
 }

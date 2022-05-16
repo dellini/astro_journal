@@ -1,7 +1,6 @@
 import 'package:astro_journal/data/tarot_card.dart';
-import 'package:astro_journal/tarot_service.dart';
+import 'package:astro_journal/services/tarot_service.dart';
 import 'package:bloc/bloc.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 abstract class DailyCardState {}
 
