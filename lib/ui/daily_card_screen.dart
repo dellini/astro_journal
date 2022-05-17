@@ -43,7 +43,7 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
         return DecoratedBox(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/images/background.png'),
+              image: AssetImage('assets/images/tarot_background.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -94,7 +94,7 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                           onPressed: cubit.getRandomCard,
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                              const Color.fromARGB(255, 41, 41, 41),
+                              const Color.fromARGB(255, 20, 20, 20),
                             ),
                             elevation: MaterialStateProperty.all(10),
                             fixedSize: MaterialStateProperty.all(
@@ -256,12 +256,8 @@ class _TarotCardDescription extends StatelessWidget {
               card.meaning,
               style: style?.copyWith(
                 fontFamily: 'Comfortaa',
-                color: const Color.fromARGB(192, 16, 16, 16),
-                fontWeight: FontWeight.lerp(
-                  FontWeight.w500,
-                  FontWeight.w700,
-                  0.6,
-                ),
+                color: const Color.fromARGB(255, 20, 20, 20),
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],
