@@ -92,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   AppButton(
                     text: 'КАРТА ДНЯ',
+                    fontSize: 18,
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute<void>(builder: (context) {
