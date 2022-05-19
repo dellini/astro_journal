@@ -1,6 +1,7 @@
 import 'package:astro_journal/data/tarot_card.dart';
 import 'package:astro_journal/services/tarot_service.dart';
 import 'package:bloc/bloc.dart';
+import 'package:hive/hive.dart';
 
 abstract class DailyCardState {}
 
@@ -15,7 +16,9 @@ class DailyCardResult extends DailyCardState {
 class DailyCardInitial extends DailyCardState {}
 
 class DailyCardCubit extends Cubit<DailyCardState> {
-  DailyCardCubit() : super(DailyCardInitial());
+  final Box<TarotCard> hiveBox;
+
+  DailyCardCubit(this.hiveBox) : super(DailyCardInitial());
   Future<void> getRandomCard() async {
     if (state is DailyCardInProgress) {
       return;

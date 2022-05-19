@@ -1,11 +1,32 @@
+import 'package:astro_journal/hive_types.dart';
+import 'package:hive/hive.dart';
+
+part 'tarot_card.g.dart';
+
+@HiveType(typeId: HiveTypes.tarotCard)
 class TarotCard {
+  @HiveField(0)
   final String type;
+
+  @HiveField(1)
   final String nameShort;
+
+  @HiveField(2)
   final String name;
+
+  @HiveField(3)
   final String value;
+
+  @HiveField(4)
   final int valueInt;
+
+  @HiveField(5)
   final String meaning;
+
+  @HiveField(6)
   final String desc;
+
+  @HiveField(7)
   final String imageUrl;
 
   String get arcane => type == 'major' ? 'Старший' : 'Младший';

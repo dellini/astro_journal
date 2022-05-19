@@ -1,10 +1,12 @@
 import 'package:astro_journal/data/tarot_card.dart';
+import 'package:astro_journal/main.dart';
 import 'package:astro_journal/ui/bouncing_button.dart';
 import 'package:astro_journal/ui/daily_card_cubit.dart';
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:hive/hive.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class DailyCardScreen extends StatefulWidget {
@@ -23,7 +25,7 @@ const _textStyle = TextStyle(
 );
 
 class _DailyCardScreenState extends State<DailyCardScreen> {
-  late final cubit = DailyCardCubit();
+  late final cubit = DailyCardCubit(Hive.box(tarotHistoryBoxName));
   @override
   void initState() {
     super.initState();
