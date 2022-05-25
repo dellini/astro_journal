@@ -1,4 +1,4 @@
-import 'package:astro_journal/ui/bouncing_button.dart';
+import 'package:astro_journal/ui/widgets/bouncing_button.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 

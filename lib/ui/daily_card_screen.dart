@@ -1,7 +1,7 @@
 import 'package:astro_journal/data/tarot_card.dart';
 import 'package:astro_journal/main.dart';
-import 'package:astro_journal/ui/bouncing_button.dart';
-import 'package:astro_journal/ui/daily_card_cubit.dart';
+import 'package:astro_journal/ui/widgets/bouncing_button.dart';
+import 'package:astro_journal/cubits/daily_card_cubit.dart';
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
