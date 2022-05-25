@@ -86,3 +86,6 @@ lint/tmp/
 
 .dart_tool/
 .packages
+.fvm/
+.flutter-plugins
+.flutter-plugins-dependencies
