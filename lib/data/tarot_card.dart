@@ -1,10 +1,12 @@
 import 'package:astro_journal/hive_types.dart';
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
 
 part 'tarot_card.g.dart';
 
 @HiveType(typeId: HiveTypes.tarotCard)
-class TarotCard {
+class TarotCard with EquatableMixin {
   @HiveField(0)
   final String type;
 
@@ -29,7 +31,13 @@ class TarotCard {
   @HiveField(7)
   final String imageUrl;
 
+  @HiveField(8)
+  final String id;
+
   String get arcane => type == 'major' ? 'Старший' : 'Младший';
+
+  @override
+  List<Object?> get props => [id, type, nameShort];
 
   TarotCard({
     required this.type,
@@ -40,7 +48,8 @@ class TarotCard {
     required this.meaning,
     required this.desc,
     this.imageUrl = '',
-  });
+    String? id,
+  }) : id = id ?? const Uuid().v4();
 
   factory TarotCard.fromJson(Map<String, dynamic> json) {
     return TarotCard(
@@ -62,6 +71,7 @@ class TarotCard {
 
   TarotCard copyWith({String? imageUrl}) {
     return TarotCard(
+      id: id,
       type: type,
       nameShort: nameShort,
       name: name,

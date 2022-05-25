@@ -41,6 +41,10 @@ dependencies:
   surf_lint_rules: ^1.5.0
   transparent_image: ^2.0.0
 
+  uuid: ^3.0.6
+  equatable: ^2.0.3
+  rxdart: ^0.27.3
+
   flutter:
     sdk: flutter
 

@@ -1,18 +1,15 @@
-import 'package:astro_journal/data/tarot_card.dart';
-import 'package:astro_journal/main.dart';
-import 'package:astro_journal/ui/widgets/bouncing_button.dart';
 import 'package:astro_journal/cubits/daily_card_cubit.dart';
+import 'package:astro_journal/data/tarot_card.dart';
+import 'package:astro_journal/ui/widgets/app_circular_progress_indicator.dart';
+import 'package:astro_journal/ui/widgets/bouncing_button.dart';
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-import 'package:hive/hive.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class DailyCardScreen extends StatefulWidget {
-  const DailyCardScreen({
-    Key? key,
-  }) : super(key: key);
+  const DailyCardScreen({Key? key}) : super(key: key);
 
   @override
   State<DailyCardScreen> createState() => _DailyCardScreenState();
@@ -25,17 +22,7 @@ const _textStyle = TextStyle(
 );
 
 class _DailyCardScreenState extends State<DailyCardScreen> {
-  late final cubit = DailyCardCubit(Hive.box(tarotHistoryBoxName));
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    cubit.close();
-  }
+  late final cubit = context.read<DailyCardCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -144,19 +131,20 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                     ),
                   ),
                 ),
-                Positioned(
-                  right: 16,
-                  top: 16,
-                  child: SafeArea(
-                    child: IconButton(
-                      onPressed: cubit.resetCard,
-                      icon: const Icon(
-                        Icons.refresh_rounded,
-                        color: Colors.amberAccent,
+                if (cubit.state is DailyCardResult)
+                  Positioned(
+                    right: 16,
+                    top: 16,
+                    child: SafeArea(
+                      child: IconButton(
+                        onPressed: cubit.resetCard,
+                        icon: const Icon(
+                          Icons.refresh_rounded,
+                          color: Colors.amberAccent,
+                        ),
                       ),
                     ),
                   ),
-                ),
                 if (state is DailyCardResult)
                   Positioned(
                     left: MediaQuery.of(context).size.width * 0.2,
@@ -197,9 +185,7 @@ class _GetTarotButton extends StatelessWidget {
         textAlign: TextAlign.center,
       );
     } else if (state is DailyCardInProgress) {
-      return const CircularProgressIndicator(
-        color: Colors.amberAccent,
-      );
+      return const AppCircularProgressIndicator();
     } else {
       return const SizedBox();
     }

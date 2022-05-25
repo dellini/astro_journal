@@ -3,25 +3,45 @@ import 'package:astro_journal/data/tarot_card_dto.dart';
 import 'package:astro_journal/date_extensions.dart';
 import 'package:hive/hive.dart';
 
-class HiveTarotHistoryRepository {
+class TarotHistoryRepositoryHive {
+  static const boxName = 'tarotHistoryBoxName';
+
   final Box<TarotCardDTO> box;
 
-  List<TarotCardDTO> get tarotCardHistory {
-    final finishDate = DateTime.now();
+  Future<List<TarotCardDTO>> get tarotCardHistory async {
+    final finishDate = DateTime.now().add(const Duration(days: 1)).date;
     final startDate = finishDate.subtract(const Duration(days: 7)).date;
+    final markForDeleting = <TarotCard>[];
     final periodHistory = box.values
-        .where((e) =>
-            e.createdAt.isBefore(finishDate) && e.createdAt.isAfter(startDate))
-        .toList()
-      ..sort(
-        (a, b) => a.createdAt.compareTo(b.createdAt),
-      );
+        .map((e) {
+          final isInPeriod = e.createdAt.isBefore(finishDate) &&
+              e.createdAt.isAfter(startDate);
+
+          if (isInPeriod) {
+            return e;
+          } else {
+            markForDeleting.add(e.tarotCard);
+            return null;
+          }
+        })
+        .whereType<TarotCardDTO>()
+        .toList();
+    await deleteAllCards(markForDeleting);
+    periodHistory.sort((a, b) => a.createdAt.compareTo(b.createdAt));
     return periodHistory;
   }
 
-  HiveTarotHistoryRepository(this.box);
+  TarotHistoryRepositoryHive(this.box);
 
-  Future<void> addCartToHistory(TarotCard card) async {
-    await box.add(card.dtoWithCreatedTime());
+  Future<void> addCardToHistory(TarotCard card) async {
+    await box.put(card.id, card.dtoWithCreatedTime());
+  }
+
+  Future<void> deleteCard(TarotCard card) async {
+    await box.delete(card.id);
+  }
+
+  Future<void> deleteAllCards(Iterable<TarotCard> cards) async {
+    await box.deleteAll(cards.map<String>((e) => e.id));
   }
 }

@@ -13,6 +13,7 @@ class AffirmationInitial extends AffirmationState {}
 
 class AffirmationCubit extends Cubit<AffirmationState> {
   AffirmationCubit() : super(AffirmationInitial());
+
   Future<void> getAffirmation() async {
     final prefs = await SharedPreferences.getInstance();
     final now = DateTime.now();

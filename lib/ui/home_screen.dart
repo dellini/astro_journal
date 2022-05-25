@@ -1,4 +1,6 @@
 import 'package:astro_journal/cubits/affirmation_cubit.dart';
+import 'package:astro_journal/ui/card_history_screen.dart';
+import 'package:astro_journal/ui/widgets/app_circular_progress_indicator.dart';
 import 'package:astro_journal/ui/widgets/app_square_button.dart';
 import 'package:astro_journal/ui/daily_card_screen.dart';
 import 'package:astro_journal/ui/widgets/greetings_text_widget.dart';
@@ -76,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   );
                                 } else {
-                                  return const SizedBox();
+                                  return const AppCircularProgressIndicator();
                                 }
                               },
                             ),
@@ -106,7 +108,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     text: 'ПОЛУЧЕННЫЕ КАРТЫ',
                     fontSize: 18,
                     fontColor: const Color.fromARGB(255, 20, 20, 20),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(builder: (context) {
+                          return const CardHistoryScreen();
+                        }),
+                      );
+                    },
                   ),
                   const SizedBox(height: 24),
                   AppButton(
