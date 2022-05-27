@@ -15,6 +15,12 @@ class CardHistoryScreen extends StatefulWidget {
   State<CardHistoryScreen> createState() => _CardHistoryScreenState();
 }
 
+const _textStyle = TextStyle(
+  fontFamily: 'TenorSans',
+  fontSize: 24,
+  color: Colors.amberAccent,
+);
+
 class _CardHistoryScreenState extends State<CardHistoryScreen> {
   late final DailyCardCubit dailyCardCubit = context.read();
   late final _scrollController = ScrollController();
@@ -36,7 +42,18 @@ class _CardHistoryScreenState extends State<CardHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: const Color.fromARGB(255, 32, 32, 32),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_rounded),
+        ),
+        iconTheme: const IconThemeData(color: Colors.amberAccent),
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.black12,
+      ),
       body: SafeArea(
         child: StreamBuilder<List<TarotCardDTO>>(
           stream: dailyCardCubit.history,
@@ -82,16 +99,31 @@ class _CardHistoryListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListTile(
-          title: Text(card.tarotCard.name),
-          subtitle:
-              Text(DateFormat('d MMM в H:m', 'ru').format(card.createdAt)),
+    return Column(
+      children: [
+        InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: ListTile(
+              title: Text(
+                card.tarotCard.name,
+                style: _textStyle,
+                textAlign: TextAlign.center,
+              ),
+              subtitle: Text(
+                DateFormat('d MMM в H:m', 'ru').format(card.createdAt),
+                style: const TextStyle(
+                  fontFamily: 'Comfortaa',
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
