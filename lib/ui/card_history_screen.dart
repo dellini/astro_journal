@@ -43,44 +43,66 @@ class _CardHistoryScreenState extends State<CardHistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 32, 32, 32),
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(Icons.arrow_back_rounded),
-        ),
-        iconTheme: const IconThemeData(color: Colors.amberAccent),
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.black12,
-      ),
+      // appBar: AppBar(
+      //   leading: IconButton(
+      //     onPressed: () {
+      //       Navigator.of(context).pop();
+      //     },
+      //     icon: const Icon(Icons.arrow_back_rounded),
+      //   ),
+      //   iconTheme: const IconThemeData(color: Colors.amberAccent),
+      //   backgroundColor: Colors.transparent,
+      //   shadowColor: Colors.black12,
+      // ),
       body: SafeArea(
-        child: StreamBuilder<List<TarotCardDTO>>(
-          stream: dailyCardCubit.history,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const SizedBox();
-            }
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: StreamBuilder<List<TarotCardDTO>>(
+                stream: dailyCardCubit.history,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const SizedBox();
+                  }
 
-            final data = snapshot.data!.reversed.toList();
+                  final data = snapshot.data!.reversed.toList();
 
-            return ListView.builder(
-              itemCount: data.length,
-              controller: _scrollController,
-              itemBuilder: (context, index) {
-                final card = data[index];
-                return _CardHistoryListItem(
-                  card: card,
-                  onTap: () {
-                    dailyCardCubit.setCard(card.tarotCard);
-                    Navigator.of(context).push(MaterialPageRoute<void>(
-                      builder: (context) => const DailyCardScreen(),
-                    ));
+                  return ListView.builder(
+                    padding: const EdgeInsets.only(top: 50),
+                    itemCount: data.length,
+                    controller: _scrollController,
+                    itemBuilder: (context, index) {
+                      final card = data[index];
+                      return _CardHistoryListItem(
+                        card: card,
+                        onTap: () {
+                          dailyCardCubit.setCard(card.tarotCard);
+                          Navigator.of(context).push(MaterialPageRoute<void>(
+                            builder: (context) => const DailyCardScreen(),
+                          ));
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+            Positioned(
+              left: 16,
+              top: 16,
+              child: SafeArea(
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
                   },
-                );
-              },
-            );
-          },
+                  icon: const Icon(
+                    Icons.arrow_back_rounded,
+                    color: Colors.amberAccent,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
