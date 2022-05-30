@@ -2,7 +2,6 @@ import 'package:astro_journal/cubits/daily_card_cubit.dart';
 import 'package:astro_journal/data/tarot_card_dto.dart';
 import 'package:astro_journal/ui/daily_card_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 

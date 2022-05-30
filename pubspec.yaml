@@ -39,6 +39,7 @@ dependencies:
   intl: ^0.17.0
   shared_preferences: ^2.0.15
   surf_lint_rules: ^1.5.0
+  table_calendar: ^3.0.6
   transparent_image: ^2.0.0
 
   uuid: ^3.0.6

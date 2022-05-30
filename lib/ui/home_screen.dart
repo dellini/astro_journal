@@ -1,8 +1,8 @@
 import 'package:astro_journal/cubits/affirmation_cubit.dart';
 import 'package:astro_journal/ui/card_history_screen.dart';
+import 'package:astro_journal/ui/daily_card_screen.dart';
 import 'package:astro_journal/ui/widgets/app_circular_progress_indicator.dart';
 import 'package:astro_journal/ui/widgets/app_square_button.dart';
-import 'package:astro_journal/ui/daily_card_screen.dart';
 import 'package:astro_journal/ui/widgets/greetings_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

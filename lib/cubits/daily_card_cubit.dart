@@ -5,7 +5,6 @@ import 'package:astro_journal/data/tarot_card_dto.dart';
 import 'package:astro_journal/repositories/hive_tarot_history_repository.dart';
 import 'package:astro_journal/services/tarot_service.dart';
 import 'package:bloc/bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class DailyCardState {}
