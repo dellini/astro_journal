@@ -1,4 +1,5 @@
 import 'package:astro_journal/cubits/affirmation_cubit.dart';
+import 'package:astro_journal/ui/calendar_screen.dart';
 import 'package:astro_journal/ui/card_history_screen.dart';
 import 'package:astro_journal/ui/daily_card_screen.dart';
 import 'package:astro_journal/ui/widgets/app_circular_progress_indicator.dart';
@@ -120,7 +121,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   AppButton(
                     text: 'ЛУННЫЙ КАЛЕНДАРЬ',
                     fontSize: 18,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(builder: (context) {
+                          return const CalendarScreen();
+                        }),
+                      );
+                    },
                   ),
                   const SizedBox(height: 24),
                 ],

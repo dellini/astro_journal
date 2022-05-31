@@ -33,6 +33,7 @@ dependencies:
   firebase_image: ^1.1.1
   firebase_storage: ^10.2.15
   flutter_bloc: ^8.0.1
+  flutter_calendar_carousel: ^2.1.0
   glassmorphism: ^3.0.0
   hive: ^2.2.1
   hive_flutter: ^1.1.0
