@@ -42,6 +42,7 @@ dependencies:
   surf_lint_rules: ^1.5.0
   table_calendar: ^3.0.6
   transparent_image: ^2.0.0
+  sliding_up_panel: ^2.0.0+1
 
   uuid: ^3.0.6
   equatable: ^2.0.3
