@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           const Text(
                             'аффирмация дня',
                             style: TextStyle(
-                              fontFamily: 'Comfortaa',
+                              fontFamily: 'Lora',
                               color: Colors.amberAccent,
                             ),
                           ),
@@ -65,8 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     state.affirmation,
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
-                                      fontFamily: 'Comfortaa',
-                                      fontSize: 18,
+                                      fontFamily: 'Lora',
+                                      fontSize: 22,
                                       color: Colors.white,
                                     ),
                                   );
@@ -107,6 +107,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 18,
                     onPressed: () {
                       Get.toNamed<void>(Routes.calendar.name);
+                    },
+                  ),
+                  const SizedBox(height: 24),
+                  AppButton(
+                    text: 'ДНЕВНИК МЫСЛЕЙ',
+                    fontSize: 18,
+                    onPressed: () {
+                      Get.toNamed<void>(Routes.dailyCard.name);
                     },
                   ),
                   const SizedBox(height: 24),

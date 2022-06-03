@@ -227,13 +227,14 @@ class _TarotCardDescription extends StatelessWidget {
                 shadows: shadows,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 40),
             Text(
               card.meaning,
               style: style?.copyWith(
-                fontFamily: 'Comfortaa',
+                fontFamily: 'Lora',
                 color: const Color.fromARGB(255, 20, 20, 20),
                 fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
             ),
           ],

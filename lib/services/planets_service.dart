@@ -43,4 +43,34 @@ enum Sign {
         (e) => e.signCode == code,
         orElse: () => Sign.unknown,
       );
+  String get declinationName {
+    switch (signCode) {
+      case 1:
+        return 'в Овне';
+      case 2:
+        return 'в Тельце';
+      case 3:
+        return 'в Близнецах';
+      case 4:
+        return 'в Раке';
+      case 5:
+        return 'во Льве';
+      case 6:
+        return 'в Деве';
+      case 7:
+        return 'в Весах';
+      case 8:
+        return 'в Скорпионе';
+      case 9:
+        return 'в Стрельце';
+      case 10:
+        return 'в Козероге';
+      case 11:
+        return 'в Водолее';
+      case 12:
+        return 'в Рыбах';
+      default:
+        return '';
+    }
+  }
 }

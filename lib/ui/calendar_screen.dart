@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:get/get.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:intl/intl.dart';
+import 'package:moon_phase/moon_phase.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class CalendarScreen extends StatefulWidget {
@@ -16,7 +18,7 @@ class CalendarScreen extends StatefulWidget {
 }
 
 const _textStyle = TextStyle(
-  fontFamily: 'Comfortaa',
+  fontFamily: 'Lora',
   fontSize: 18,
   color: Colors.white,
 );
@@ -24,11 +26,13 @@ const _textStyle = TextStyle(
 class _CalendarScreenState extends State<CalendarScreen> {
   late final DateTime now;
   Sign? _sign;
+  late DateTime _selectedDay;
 
   @override
   void initState() {
     super.initState();
     now = DateTime.now();
+    _selectedDay = now;
     determinePosition().then((value) async {
       _sign = await requestMoonSign(
         date: now,
@@ -49,8 +53,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
         child: Stack(
           children: [
             SlidingUpPanel(
-              maxHeight: MediaQuery.of(context).size.height * 0.9,
-              minHeight: MediaQuery.of(context).size.height * 0.3,
+              maxHeight: MediaQuery.of(context).size.height * 0.66,
+              minHeight: MediaQuery.of(context).size.height * 0.33,
               renderPanelSheet: false,
               panel: ClipRRect(
                 borderRadius: const BorderRadius.only(
@@ -77,15 +81,48 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       Colors.white,
                     ],
                   ),
-                  child: Align(
+                  child: Container(
+                    padding: const EdgeInsets.only(top: 32),
+                    height: MediaQuery.of(context).size.height * 0.33,
                     alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        _sign?.toString() ?? '',
-                        textAlign: TextAlign.center,
-                        style: _textStyle,
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          DateFormat('d MMMM', 'ru').format(_selectedDay),
+                          textAlign: TextAlign.center,
+                          style: _textStyle.copyWith(
+                            color: Colors.amberAccent,
+                            fontSize: 30,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 18, top: 18),
+                              child: MoonWidget(
+                                date: _selectedDay,
+                                size: 60,
+                                moonColor: Colors.amberAccent,
+                                earthshineColor:
+                                    const Color.fromARGB(255, 20, 20, 20),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Text(
+                              _sign != null
+                                  ? 'Луна ${_sign!.declinationName}'
+                                  : '',
+                              textAlign: TextAlign.center,
+                              style: _textStyle.copyWith(
+                                color: Colors.amberAccent,
+                                fontSize: 24,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -104,9 +141,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           lon: position.longitude,
                           lat: position.latitude,
                         );
-                        // ignore: avoid_print
-                        print(_sign);
+
                         setState(() {
+                          _selectedDay = day;
                           _sign = sign;
                         });
                       },
@@ -120,15 +157,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         color: Colors.amberAccent,
                         fontSize: 22,
                       ),
-                      customDayBuilder: (bool isSelectable,
-                          int index,
-                          bool isSelectedDay,
-                          bool isToday,
-                          bool isPrevMonthDay,
-                          TextStyle textStyle,
-                          bool isNextMonthDay,
-                          bool isThisMonthDay,
-                          DateTime day) {
+                      customDayBuilder: (
+                        bool isSelectable,
+                        int index,
+                        bool isSelectedDay,
+                        bool isToday,
+                        bool isPrevMonthDay,
+                        TextStyle textStyle,
+                        bool isNextMonthDay,
+                        bool isThisMonthDay,
+                        DateTime day,
+                      ) {
                         if (day.date == now.date) {
                           return Container(
                             alignment: Alignment.center,

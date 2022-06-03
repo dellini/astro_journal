@@ -41,6 +41,7 @@ dependencies:
   hive: ^2.2.1
   hive_flutter: ^1.1.0
   intl: ^0.17.0
+  moon_phase: ^1.0.1+8
   shared_preferences: ^2.0.15
   surf_lint_rules: ^1.5.0
   table_calendar: ^3.0.6
@@ -103,9 +104,13 @@ flutter:
     - family: TenorSans
       fonts:
         - asset: assets/fonts/TenorSans-Regular.ttf
-    - family: Comfortaa
+    - family: Montserrat
       fonts:
-        - asset: assets/fonts/Comfortaa-Regular.ttf
+        - asset: assets/fonts/Montserrat.ttf
+    - family: Lora
+      fonts:
+        - asset: assets/fonts/Lora-Italic-VariableFont_wght.ttf
+        - asset: assets/fonts/Lora-VariableFont_wght.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

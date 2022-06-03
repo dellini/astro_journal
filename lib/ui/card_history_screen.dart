@@ -111,7 +111,7 @@ class _CardHistoryListItem extends StatelessWidget {
               subtitle: Text(
                 DateFormat('d MMM в H:m', 'ru').format(card.createdAt),
                 style: const TextStyle(
-                  fontFamily: 'Comfortaa',
+                  fontFamily: 'Lora',
                   fontSize: 16,
                   color: Colors.white,
                 ),
