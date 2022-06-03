@@ -4,10 +4,10 @@ import 'package:astro_journal/data/tarot_card.dart';
 import 'package:astro_journal/data/tarot_card_dto.dart';
 import 'package:astro_journal/firebase_options.dart';
 import 'package:astro_journal/repositories/hive_tarot_history_repository.dart';
-import 'package:astro_journal/ui/home_screen.dart';
+import 'package:astro_journal/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -37,20 +37,15 @@ Future<void> main() async {
   await initializeDateFormatting('ru');
   Intl.systemLocale = await findSystemLocale();
 
+  Get
+    ..put(dailyCardCubit)
+    ..put(affirmationCubit)
+    ..put(historyRepository);
+
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider.value(value: dailyCardCubit),
-        BlocProvider.value(value: affirmationCubit),
-      ],
-      child: MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider.value(value: historyRepository),
-        ],
-        child: const MaterialApp(
-          home: HomeScreen(),
-        ),
-      ),
+    GetMaterialApp(
+      initialRoute: Routes.main.name,
+      getPages: Routes.routes,
     ),
   );
 }

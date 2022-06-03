@@ -2,11 +2,19 @@ import 'package:astro_journal/cubits/daily_card_cubit.dart';
 import 'package:astro_journal/data/tarot_card.dart';
 import 'package:astro_journal/ui/widgets/app_circular_progress_indicator.dart';
 import 'package:astro_journal/ui/widgets/bouncing_button.dart';
+import 'package:astro_journal/ui/widgets/positioned_back_button.dart';
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:transparent_image/transparent_image.dart';
+
+const _textStyle = TextStyle(
+  fontFamily: 'TenorSans',
+  fontSize: 16,
+  color: Colors.amberAccent,
+);
 
 class DailyCardScreen extends StatefulWidget {
   const DailyCardScreen({Key? key}) : super(key: key);
@@ -15,14 +23,8 @@ class DailyCardScreen extends StatefulWidget {
   State<DailyCardScreen> createState() => _DailyCardScreenState();
 }
 
-const _textStyle = TextStyle(
-  fontFamily: 'TenorSans',
-  fontSize: 16,
-  color: Colors.amberAccent,
-);
-
 class _DailyCardScreenState extends State<DailyCardScreen> {
-  late final cubit = context.read<DailyCardCubit>();
+  late final DailyCardCubit cubit = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -116,21 +118,7 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                     left: 0,
                     right: 0,
                   ),
-                Positioned(
-                  left: 16,
-                  top: 16,
-                  child: SafeArea(
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back_rounded,
-                        color: Colors.amberAccent,
-                      ),
-                    ),
-                  ),
-                ),
+                const PositionedBackButton(),
                 if (cubit.state is DailyCardResult)
                   Positioned(
                     right: 16,

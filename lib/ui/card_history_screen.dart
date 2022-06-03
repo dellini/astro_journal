@@ -1,8 +1,11 @@
 import 'package:astro_journal/cubits/daily_card_cubit.dart';
 import 'package:astro_journal/data/tarot_card_dto.dart';
+import 'package:astro_journal/routes.dart';
 import 'package:astro_journal/ui/daily_card_screen.dart';
+import 'package:astro_journal/ui/widgets/positioned_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class CardHistoryScreen extends StatefulWidget {
@@ -21,7 +24,7 @@ const _textStyle = TextStyle(
 );
 
 class _CardHistoryScreenState extends State<CardHistoryScreen> {
-  late final DailyCardCubit dailyCardCubit = context.read();
+  late final DailyCardCubit dailyCardCubit = Get.find();
   late final _scrollController = ScrollController();
   late final _listenUpdates = dailyCardCubit.history.listen((_) {
     _scrollController.animateTo(
@@ -42,17 +45,6 @@ class _CardHistoryScreenState extends State<CardHistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 32, 32, 32),
-      // appBar: AppBar(
-      //   leading: IconButton(
-      //     onPressed: () {
-      //       Navigator.of(context).pop();
-      //     },
-      //     icon: const Icon(Icons.arrow_back_rounded),
-      //   ),
-      //   iconTheme: const IconThemeData(color: Colors.amberAccent),
-      //   backgroundColor: Colors.transparent,
-      //   shadowColor: Colors.black12,
-      // ),
       body: SafeArea(
         child: Stack(
           children: [
@@ -76,9 +68,7 @@ class _CardHistoryScreenState extends State<CardHistoryScreen> {
                         card: card,
                         onTap: () {
                           dailyCardCubit.setCard(card.tarotCard);
-                          Navigator.of(context).push(MaterialPageRoute<void>(
-                            builder: (context) => const DailyCardScreen(),
-                          ));
+                          Get.toNamed<void>(Routes.dailyCard.name);
                         },
                       );
                     },
@@ -86,21 +76,7 @@ class _CardHistoryScreenState extends State<CardHistoryScreen> {
                 },
               ),
             ),
-            Positioned(
-              left: 16,
-              top: 16,
-              child: SafeArea(
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_rounded,
-                    color: Colors.amberAccent,
-                  ),
-                ),
-              ),
-            ),
+            const PositionedBackButton(),
           ],
         ),
       ),

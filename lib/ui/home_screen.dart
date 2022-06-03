@@ -1,12 +1,11 @@
 import 'package:astro_journal/cubits/affirmation_cubit.dart';
-import 'package:astro_journal/ui/calendar_screen.dart';
-import 'package:astro_journal/ui/card_history_screen.dart';
-import 'package:astro_journal/ui/daily_card_screen.dart';
+import 'package:astro_journal/routes.dart';
 import 'package:astro_journal/ui/widgets/app_circular_progress_indicator.dart';
 import 'package:astro_journal/ui/widgets/app_square_button.dart';
 import 'package:astro_journal/ui/widgets/greetings_text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -16,18 +15,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late final AffirmationCubit affirmationCubit;
+  late final AffirmationCubit affirmationCubit = Get.find();
   @override
   void initState() {
     super.initState();
-    affirmationCubit = AffirmationCubit();
     affirmationCubit.getAffirmation();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    affirmationCubit.close();
   }
 
   @override
@@ -97,11 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     text: 'КАРТА ДНЯ',
                     fontSize: 18,
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute<void>(builder: (context) {
-                          return const DailyCardScreen();
-                        }),
-                      );
+                      Get.toNamed<void>(Routes.dailyCard.name);
                     },
                   ),
                   const SizedBox(height: 24),
@@ -110,11 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontSize: 18,
                     fontColor: const Color.fromARGB(255, 20, 20, 20),
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute<void>(builder: (context) {
-                          return const CardHistoryScreen();
-                        }),
-                      );
+                      Get.toNamed<void>(Routes.cardHistory.name);
                     },
                   ),
                   const SizedBox(height: 24),
@@ -122,11 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     text: 'ЛУННЫЙ КАЛЕНДАРЬ',
                     fontSize: 18,
                     onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute<void>(builder: (context) {
-                          return const CalendarScreen();
-                        }),
-                      );
+                      Get.toNamed<void>(Routes.calendar.name);
                     },
                   ),
                   const SizedBox(height: 24),

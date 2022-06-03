@@ -1,7 +1,10 @@
+import 'package:astro_journal/date_extensions.dart';
 import 'package:astro_journal/services/planets_service.dart';
+import 'package:astro_journal/ui/widgets/positioned_back_button.dart';
 import 'package:astro_journal/util/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
+import 'package:get/get.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -19,14 +22,16 @@ const _textStyle = TextStyle(
 );
 
 class _CalendarScreenState extends State<CalendarScreen> {
+  late final DateTime now;
   Sign? _sign;
 
   @override
   void initState() {
     super.initState();
+    now = DateTime.now();
     determinePosition().then((value) async {
       _sign = await requestMoonSign(
-        date: DateTime.now(),
+        date: now,
         lon: value.longitude,
         lat: value.latitude,
       );
@@ -85,11 +90,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                 ),
               ),
-              // header: Container(
-              //   height: 60,
-              //   width: 360,
-              //   color: Colors.red,
-              // ),
               body: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Builder(
@@ -120,6 +120,33 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         color: Colors.amberAccent,
                         fontSize: 22,
                       ),
+                      customDayBuilder: (bool isSelectable,
+                          int index,
+                          bool isSelectedDay,
+                          bool isToday,
+                          bool isPrevMonthDay,
+                          TextStyle textStyle,
+                          bool isNextMonthDay,
+                          bool isThisMonthDay,
+                          DateTime day) {
+                        if (day.date == now.date) {
+                          return Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              day.day.toString(),
+                              style: _textStyle.copyWith(
+                                color: const Color.fromARGB(255, 32, 32, 32),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.amberAccent,
+                            ),
+                          );
+                        }
+                        return null;
+                      },
                       daysTextStyle: _textStyle,
                       weekdayTextStyle: _textStyle,
                       weekendTextStyle:
@@ -143,21 +170,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
               ),
             ),
-            Positioned(
-              left: 16,
-              top: 16,
-              child: SafeArea(
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_rounded,
-                    color: Colors.amberAccent,
-                  ),
-                ),
-              ),
-            ),
+            const PositionedBackButton(),
           ],
         ),
       ),
