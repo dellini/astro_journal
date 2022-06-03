@@ -44,6 +44,11 @@ Future<void> main() async {
 
   runApp(
     GetMaterialApp(
+      theme: ThemeData(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+      ),
       initialRoute: Routes.main.name,
       getPages: Routes.routes,
     ),

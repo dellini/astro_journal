@@ -96,6 +96,7 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                                 borderRadius: BorderRadius.circular(150),
                               ),
                             ),
+                            splashFactory: NoSplash.splashFactory,
                           ),
                           //ignore:avoid-returning-widgets
                           child: _GetTarotButton(

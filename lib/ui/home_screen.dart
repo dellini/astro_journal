@@ -113,9 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   AppButton(
                     text: 'ДНЕВНИК МЫСЛЕЙ',
                     fontSize: 18,
-                    onPressed: () {
-                      Get.toNamed<void>(Routes.dailyCard.name);
-                    },
+                    onPressed: () {},
                   ),
                   const SizedBox(height: 24),
                 ],

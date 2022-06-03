@@ -1,5 +1,6 @@
 import 'package:astro_journal/date_extensions.dart';
 import 'package:astro_journal/services/planets_service.dart';
+import 'package:astro_journal/ui/widgets/app_square_button.dart';
 import 'package:astro_journal/ui/widgets/positioned_back_button.dart';
 import 'package:astro_journal/util/geolocator.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +54,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         child: Stack(
           children: [
             SlidingUpPanel(
+              onPanelSlide: (position) {},
               maxHeight: MediaQuery.of(context).size.height * 0.66,
               minHeight: MediaQuery.of(context).size.height * 0.33,
               renderPanelSheet: false,
@@ -81,49 +83,79 @@ class _CalendarScreenState extends State<CalendarScreen> {
                       Colors.white,
                     ],
                   ),
-                  child: Container(
-                    padding: const EdgeInsets.only(top: 32),
-                    height: MediaQuery.of(context).size.height * 0.33,
-                    alignment: Alignment.topCenter,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          DateFormat('d MMMM', 'ru').format(_selectedDay),
-                          textAlign: TextAlign.center,
-                          style: _textStyle.copyWith(
-                            color: Colors.amberAccent,
-                            fontSize: 30,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      const Icon(
+                        Icons.arrow_drop_up_rounded,
+                        size: 32,
+                        color: Colors.amberAccent,
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.28,
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 18, top: 18),
-                              child: MoonWidget(
-                                date: _selectedDay,
-                                size: 60,
-                                moonColor: Colors.amberAccent,
-                                earthshineColor:
-                                    const Color.fromARGB(255, 20, 20, 20),
-                              ),
-                            ),
-                            const SizedBox(width: 16),
                             Text(
-                              _sign != null
-                                  ? 'Луна ${_sign!.declinationName}'
-                                  : '',
+                              DateFormat('d MMMM', 'ru').format(_selectedDay),
                               textAlign: TextAlign.center,
                               style: _textStyle.copyWith(
                                 color: Colors.amberAccent,
-                                fontSize: 24,
+                                fontSize: 30,
                               ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 18, top: 18),
+                                  child: MoonWidget(
+                                    date: _selectedDay,
+                                    size: 60,
+                                    moonColor: Colors.amberAccent,
+                                    earthshineColor:
+                                        const Color.fromARGB(255, 20, 20, 20),
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Text(
+                                  _sign != null
+                                      ? 'Луна ${_sign!.declinationName}'
+                                      : '',
+                                  textAlign: TextAlign.center,
+                                  style: _textStyle.copyWith(
+                                    color: Colors.amberAccent,
+                                    fontSize: 24,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            AppButton(
+                              text: 'ДНЕВНИК МЫСЛЕЙ',
+                              fontSize: 18,
+                              onPressed: () {},
+                            ),
+                            AppButton(
+                              text: 'ПЛАНЕТАРНЫЕ ЧАСЫ',
+                              fontSize: 18,
+                              onPressed: () {},
+                            ),
+                            const SizedBox(height: 40),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -131,79 +163,82 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Builder(
                   builder: (context) {
-                    return CalendarCarousel(
-                      locale: 'ru_RU',
-                      pageScrollPhysics: const NeverScrollableScrollPhysics(),
-                      onDayPressed: (day, _) async {
-                        final position = await determinePosition();
-                        final sign = await requestMoonSign(
-                          date: day,
-                          lon: position.longitude,
-                          lat: position.latitude,
-                        );
-
-                        setState(() {
-                          _selectedDay = day;
-                          _sign = sign;
-                        });
-                      },
-                      headerMargin: const EdgeInsets.only(
-                        left: 64,
-                        right: 64,
-                        top: 28,
-                        bottom: 28,
-                      ),
-                      headerTextStyle: _textStyle.copyWith(
-                        color: Colors.amberAccent,
-                        fontSize: 22,
-                      ),
-                      customDayBuilder: (
-                        bool isSelectable,
-                        int index,
-                        bool isSelectedDay,
-                        bool isToday,
-                        bool isPrevMonthDay,
-                        TextStyle textStyle,
-                        bool isNextMonthDay,
-                        bool isThisMonthDay,
-                        DateTime day,
-                      ) {
-                        if (day.date == now.date) {
-                          return Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              day.day.toString(),
-                              style: _textStyle.copyWith(
-                                color: const Color.fromARGB(255, 32, 32, 32),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.amberAccent,
-                            ),
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 50.0),
+                      child: CalendarCarousel(
+                        locale: 'ru_RU',
+                        pageScrollPhysics: const NeverScrollableScrollPhysics(),
+                        onDayPressed: (day, _) async {
+                          final position = await determinePosition();
+                          final sign = await requestMoonSign(
+                            date: day,
+                            lon: position.longitude,
+                            lat: position.latitude,
                           );
-                        }
-                        return null;
-                      },
-                      daysTextStyle: _textStyle,
-                      weekdayTextStyle: _textStyle,
-                      weekendTextStyle:
-                          _textStyle.copyWith(color: Colors.amberAccent),
-                      todayButtonColor: Colors.amberAccent,
-                      todayTextStyle: _textStyle.copyWith(
-                        color: const Color.fromARGB(255, 32, 32, 32),
-                        fontWeight: FontWeight.bold,
+
+                          setState(() {
+                            _selectedDay = day;
+                            _sign = sign;
+                          });
+                        },
+                        headerMargin: const EdgeInsets.only(
+                          left: 64,
+                          right: 64,
+                          top: 28,
+                          bottom: 28,
+                        ),
+                        headerTextStyle: _textStyle.copyWith(
+                          color: Colors.amberAccent,
+                          fontSize: 22,
+                        ),
+                        customDayBuilder: (
+                          bool isSelectable,
+                          int index,
+                          bool isSelectedDay,
+                          bool isToday,
+                          bool isPrevMonthDay,
+                          TextStyle textStyle,
+                          bool isNextMonthDay,
+                          bool isThisMonthDay,
+                          DateTime day,
+                        ) {
+                          if (day.date == now.date) {
+                            return Container(
+                              alignment: Alignment.center,
+                              child: Text(
+                                day.day.toString(),
+                                style: _textStyle.copyWith(
+                                  color: const Color.fromARGB(255, 32, 32, 32),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.amberAccent,
+                              ),
+                            );
+                          }
+                          return null;
+                        },
+                        daysTextStyle: _textStyle,
+                        weekdayTextStyle: _textStyle,
+                        weekendTextStyle:
+                            _textStyle.copyWith(color: Colors.amberAccent),
+                        todayButtonColor: Colors.amberAccent,
+                        todayTextStyle: _textStyle.copyWith(
+                          color: const Color.fromARGB(255, 32, 32, 32),
+                          fontWeight: FontWeight.bold,
+                        ),
+                        prevDaysTextStyle: _textStyle.copyWith(
+                          color: Colors.white38,
+                          fontSize: 14,
+                        ),
+                        nextDaysTextStyle: _textStyle.copyWith(
+                          color: Colors.white38,
+                          fontSize: 14,
+                        ),
+                        iconColor: Colors.amberAccent,
                       ),
-                      prevDaysTextStyle: _textStyle.copyWith(
-                        color: Colors.white38,
-                        fontSize: 14,
-                      ),
-                      nextDaysTextStyle: _textStyle.copyWith(
-                        color: Colors.white38,
-                        fontSize: 14,
-                      ),
-                      iconColor: Colors.amberAccent,
                     );
                   },
                 ),
