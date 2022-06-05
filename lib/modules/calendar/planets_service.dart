@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_dynamic_calls
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 
 Future<Sign> requestMoonSign({
   required DateTime date,

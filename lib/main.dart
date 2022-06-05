@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:astro_journal/data/export.dart';
 import 'package:astro_journal/firebase_options.dart';
 import 'package:astro_journal/modules/daily_card/daily_card_cubit.dart';
-import 'package:astro_journal/modules/history/hive_tarot_history_repository.dart';
+import 'package:astro_journal/modules/history/hive_card_history_repository.dart';
 import 'package:astro_journal/routes.dart';
 import 'package:astro_journal/theme.dart';
 import 'package:firebase_core/firebase_core.dart';

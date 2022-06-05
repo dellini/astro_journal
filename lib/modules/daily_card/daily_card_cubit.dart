@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:astro_journal/data/export.dart';
-import 'package:astro_journal/modules/history/hive_tarot_history_repository.dart';
 import 'package:astro_journal/modules/daily_card/tarot_service.dart';
+import 'package:astro_journal/modules/history/hive_card_history_repository.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:rxdart/rxdart.dart';

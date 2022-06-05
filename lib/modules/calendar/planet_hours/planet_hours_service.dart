@@ -1,5 +1,6 @@
 import 'package:astro_journal/date_extensions.dart';
-import 'package:astro_journal/modules/calendar/planet_hours.dart';
+import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_data.dart';
+
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 

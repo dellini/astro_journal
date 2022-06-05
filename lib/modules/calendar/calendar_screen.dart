@@ -194,15 +194,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           fontSize: 22,
                         ),
                         customDayBuilder: (
-                          bool isSelectable,
-                          int index,
-                          bool isSelectedDay,
-                          bool isToday,
-                          bool isPrevMonthDay,
-                          TextStyle textStyle,
-                          bool isNextMonthDay,
-                          bool isThisMonthDay,
-                          DateTime day,
+                          isSelectable,
+                          index,
+                          isSelectedDay,
+                          isToday,
+                          isPrevMonthDay,
+                          textStyle,
+                          isNextMonthDay,
+                          isThisMonthDay,
+                          day,
                         ) {
                           if (day.date == now.date) {
                             return Container(

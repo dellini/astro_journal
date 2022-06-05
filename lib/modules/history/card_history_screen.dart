@@ -93,7 +93,6 @@ class CardHistoryScreen extends GetView<CardHistoryController> {
                     );
                   },
                 );
-                return const SizedBox();
               }),
             ),
             const PositionedBackButton(),
