@@ -1,7 +1,6 @@
-import 'package:astro_journal/services/affirmation_service.dart';
-import 'package:astro_journal/services/api_requests_service.dart';
-import 'package:astro_journal/services/planet_hours_service.dart';
-import 'package:astro_journal/services/tarot_service.dart';
+import 'package:astro_journal/modules/daily_card/tarot_service.dart';
+import 'package:astro_journal/modules/home/affirmation/affirmation_service.dart';
+import 'package:astro_journal/modules/calendar/planet_hours_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 

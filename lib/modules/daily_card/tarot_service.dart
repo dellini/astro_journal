@@ -1,4 +1,4 @@
-import 'package:astro_journal/data/tarot_card.dart';
+import 'package:astro_journal/data/export.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -28,8 +28,10 @@ Future<String> getTarotImage({
   required String tarotImageKey,
 }) async {
   try {
-    final ref = storage.ref().child('tarot/$tarotImageKey.jpg');
-    final url = ref.getDownloadURL();
+    // final ref = storage.ref().child('tarot/$tarotImageKey.jpg');
+    // final url = await ref.getDownloadURL();
+    final url = 'gs://${storage.bucket}/tarot/$tarotImageKey.jpg';
+
     return url;
     // ignore: avoid_catches_without_on_clauses
   } catch (_) {

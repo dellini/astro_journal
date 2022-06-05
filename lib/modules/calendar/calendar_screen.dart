@@ -1,11 +1,9 @@
 import 'package:astro_journal/date_extensions.dart';
-import 'package:astro_journal/services/planets_service.dart';
-import 'package:astro_journal/ui/widgets/app_square_button.dart';
-import 'package:astro_journal/ui/widgets/positioned_back_button.dart';
+import 'package:astro_journal/modules/calendar/planets_service.dart';
 import 'package:astro_journal/util/geolocator.dart';
+import 'package:astro_journal/widgets/export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
-import 'package:get/get.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:intl/intl.dart';
 import 'package:moon_phase/moon_phase.dart';
@@ -144,11 +142,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                             AppButton(
                               text: 'ДНЕВНИК МЫСЛЕЙ',
                               fontSize: 18,
+                              splashFactory: NoSplash.splashFactory,
                               onPressed: () {},
                             ),
                             AppButton(
                               text: 'ПЛАНЕТАРНЫЕ ЧАСЫ',
                               fontSize: 18,
+                              splashFactory: NoSplash.splashFactory,
                               onPressed: () {},
                             ),
                             const SizedBox(height: 40),
@@ -164,7 +164,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 child: Builder(
                   builder: (context) {
                     return Padding(
-                      padding: const EdgeInsets.only(top: 50.0),
+                      padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height < 700 ? 20 : 50,
+                      ),
                       child: CalendarCarousel(
                         locale: 'ru_RU',
                         pageScrollPhysics: const NeverScrollableScrollPhysics(),

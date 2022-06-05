@@ -1,26 +1,22 @@
-import 'package:astro_journal/cubits/affirmation_cubit.dart';
-import 'package:astro_journal/routes.dart';
-import 'package:astro_journal/ui/widgets/app_circular_progress_indicator.dart';
-import 'package:astro_journal/ui/widgets/app_square_button.dart';
-import 'package:astro_journal/ui/widgets/greetings_text_widget.dart';
+import 'package:astro_journal/modules/home/affirmation/affirmation_cubit.dart';
+import 'package:astro_journal/modules/home/home_controller.dart';
+import 'package:astro_journal/widgets/export.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends GetView<HomeController> {
+  final VoidCallback? onGoDailyTarot;
+  final VoidCallback? onGoCardHistory;
+  final VoidCallback? onGoLunarCalendar;
+  final VoidCallback? onGoDiary;
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  late final AffirmationCubit affirmationCubit = Get.find();
-  @override
-  void initState() {
-    super.initState();
-    affirmationCubit.getAffirmation();
-  }
+  const HomeScreen({
+    Key? key,
+    this.onGoDailyTarot,
+    this.onGoCardHistory,
+    this.onGoLunarCalendar,
+    this.onGoDiary,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +52,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(height: 16),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 36),
-                            child:
-                                BlocBuilder<AffirmationCubit, AffirmationState>(
-                              bloc: affirmationCubit,
-                              builder: (context, state) {
+                            child: StreamBuilder<AffirmationState>(
+                              stream: controller.affirmationState,
+                              builder: (context, data) {
+                                final state = data.data;
+
                                 if (state is AffirmationResult) {
                                   return Text(
                                     state.affirmation,
@@ -88,32 +85,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   AppButton(
                     text: 'КАРТА ДНЯ',
                     fontSize: 18,
-                    onPressed: () {
-                      Get.toNamed<void>(Routes.dailyCard.name);
-                    },
+                    onPressed: onGoDailyTarot,
                   ),
                   const SizedBox(height: 24),
                   AppButton(
                     text: 'ПОЛУЧЕННЫЕ КАРТЫ',
                     fontSize: 18,
                     fontColor: const Color.fromARGB(255, 20, 20, 20),
-                    onPressed: () {
-                      Get.toNamed<void>(Routes.cardHistory.name);
-                    },
+                    onPressed: onGoCardHistory,
                   ),
                   const SizedBox(height: 24),
                   AppButton(
                     text: 'ЛУННЫЙ КАЛЕНДАРЬ',
                     fontSize: 18,
-                    onPressed: () {
-                      Get.toNamed<void>(Routes.calendar.name);
-                    },
+                    onPressed: onGoLunarCalendar,
                   ),
                   const SizedBox(height: 24),
                   AppButton(
                     text: 'ДНЕВНИК МЫСЛЕЙ',
                     fontSize: 18,
-                    onPressed: () {},
+                    onPressed: onGoDiary,
                   ),
                   const SizedBox(height: 24),
                 ],

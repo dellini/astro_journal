@@ -1,5 +1,4 @@
-import 'package:astro_journal/data/tarot_card.dart';
-import 'package:astro_journal/data/tarot_card_dto.dart';
+import 'package:astro_journal/data/export.dart';
 import 'package:astro_journal/date_extensions.dart';
 import 'package:hive/hive.dart';
 
@@ -35,6 +34,19 @@ class TarotHistoryRepositoryHive {
 
   Future<void> addCardToHistory(TarotCard card) async {
     await box.put(card.id, card.dtoWithCreatedTime());
+  }
+
+  Future<void> updateCard(TarotCard card) async {
+    final existing = box.get(card.id);
+    if (existing != null) {
+      await box.put(
+        card.id,
+        TarotCardDTO(
+          createdAt: existing.createdAt,
+          tarotCard: card,
+        ),
+      );
+    }
   }
 
   Future<void> deleteCard(TarotCard card) async {

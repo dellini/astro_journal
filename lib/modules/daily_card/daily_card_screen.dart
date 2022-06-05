@@ -1,8 +1,8 @@
-import 'package:astro_journal/cubits/daily_card_cubit.dart';
-import 'package:astro_journal/data/tarot_card.dart';
-import 'package:astro_journal/ui/widgets/app_circular_progress_indicator.dart';
-import 'package:astro_journal/ui/widgets/bouncing_button.dart';
-import 'package:astro_journal/ui/widgets/positioned_back_button.dart';
+import 'package:astro_journal/data/export.dart';
+import 'package:astro_journal/modules/daily_card/daily_card_controller.dart';
+import 'package:astro_journal/modules/daily_card/daily_card_cubit.dart';
+import 'package:astro_journal/widgets/export.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,20 +16,13 @@ const _textStyle = TextStyle(
   color: Colors.amberAccent,
 );
 
-class DailyCardScreen extends StatefulWidget {
+class DailyCardScreen extends GetView<DailyCardController> {
   const DailyCardScreen({Key? key}) : super(key: key);
-
-  @override
-  State<DailyCardScreen> createState() => _DailyCardScreenState();
-}
-
-class _DailyCardScreenState extends State<DailyCardScreen> {
-  late final DailyCardCubit cubit = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DailyCardCubit, DailyCardState>(
-      bloc: cubit,
+      bloc: controller.dailyCardCubit,
       builder: (context, state) {
         return DecoratedBox(
           decoration: const BoxDecoration(
@@ -82,7 +75,7 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                       width: MediaQuery.of(context).size.width,
                       child: BouncingWidget(
                         child: ElevatedButton(
-                          onPressed: cubit.getRandomCard,
+                          onPressed: controller.dailyCardCubit.getRandomCard,
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                               const Color.fromARGB(255, 20, 20, 20),
@@ -99,7 +92,7 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                             splashFactory: NoSplash.splashFactory,
                           ),
                           //ignore:avoid-returning-widgets
-                          child: _GetTarotButton(
+                          child: _GetTarotButtonContent(
                             state: state,
                             style: _textStyle,
                           ),
@@ -120,13 +113,13 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                     right: 0,
                   ),
                 const PositionedBackButton(),
-                if (cubit.state is DailyCardResult)
+                if (controller.dailyCardCubit.state is DailyCardResult)
                   Positioned(
                     right: 16,
                     top: 16,
                     child: SafeArea(
                       child: IconButton(
-                        onPressed: cubit.resetCard,
+                        onPressed: controller.dailyCardCubit.resetCard,
                         icon: const Icon(
                           Icons.refresh_rounded,
                           color: Colors.amberAccent,
@@ -141,7 +134,10 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
                     top: MediaQuery.of(context).size.height * 0.12,
                     child: FadeInImage(
                       placeholder: MemoryImage(kTransparentImage),
-                      image: FirebaseImage(state.dailyCard.imageUrl),
+                      image: FirebaseImage(
+                        state.dailyCard.imageUrl,
+                        firebaseApp: Firebase.app(),
+                      ),
                       width: MediaQuery.of(context).size.width * 0.5,
                       height: MediaQuery.of(context).size.height * 0.45,
                     ),
@@ -155,11 +151,11 @@ class _DailyCardScreenState extends State<DailyCardScreen> {
   }
 }
 
-class _GetTarotButton extends StatelessWidget {
+class _GetTarotButtonContent extends StatelessWidget {
   final DailyCardState state;
   final TextStyle? style;
 
-  const _GetTarotButton({
+  const _GetTarotButtonContent({
     required this.state,
     Key? key,
     this.style,

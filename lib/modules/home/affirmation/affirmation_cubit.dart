@@ -1,4 +1,4 @@
-import 'package:astro_journal/services/affirmation_service.dart';
+import 'package:astro_journal/modules/home/affirmation/affirmation_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,19 +12,31 @@ class AffirmationResult extends AffirmationState {
 class AffirmationInitial extends AffirmationState {}
 
 class AffirmationCubit extends Cubit<AffirmationState> {
+  late final now = DateTime.now();
+  String get todayKey => 'affirmation_${now.year}_${now.month}_${now.day}';
+
   AffirmationCubit() : super(AffirmationInitial());
 
   Future<void> getAffirmation() async {
     final prefs = await SharedPreferences.getInstance();
-    final now = DateTime.now();
-    final id = 'affirmation_${now.year}_${now.month}_${now.day}';
+    final id = todayKey;
     final savedValue = prefs.getString(id);
     if (savedValue == null) {
       final affirmation = await getRandomAffirmation();
-      emit(AffirmationResult(affirmation));
-      await prefs.setString(id, affirmation);
+      if (affirmation.isNotEmpty) {
+        emit(AffirmationResult(affirmation));
+        await prefs.setString(id, affirmation);
+      } else {
+        emit(AffirmationResult('отсутствует интернет...'));
+      }
     } else {
       emit(AffirmationResult(savedValue));
     }
+  }
+
+  Future<void> clear() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(todayKey);
+    emit(AffirmationInitial());
   }
 }
