@@ -1,4 +1,5 @@
 import 'package:astro_journal/modules/calendar/calendar_screen.dart';
+import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_screen.dart';
 import 'package:astro_journal/modules/daily_card/binding.dart';
 import 'package:astro_journal/modules/daily_card/daily_card_screen.dart';
 import 'package:astro_journal/modules/history/card_history_screen.dart';
@@ -30,11 +31,16 @@ abstract class Routes {
     name: '/calendar',
     page: () => const CalendarScreen(),
   );
+  static final planetHours = GetPage<dynamic>(
+    name: '/planetHours',
+    page: () => const PlanetHoursScreen(),
+  );
 
   static final routes = [
     main,
     dailyCard,
     cardHistory,
     calendar,
+    planetHours,
   ];
 }

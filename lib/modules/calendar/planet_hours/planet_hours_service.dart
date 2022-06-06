@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:astro_journal/date_extensions.dart';
 import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_data.dart';
 
@@ -64,15 +66,18 @@ PlanetHourComputeResult calculatePlanetHoursInPeriod({
   return result;
 }
 
-Future<MapEntry<DateTime, double>> getNightPlanetHours() async {
+Future<MapEntry<DateTime, double>> getNightPlanetHours(
+  double lat,
+  double lon,
+) async {
   final sunriseTomorrow = (await requestSunriseSunset(
-    latitude: 45.037874,
-    longitude: 38.975054,
+    latitude: lat,
+    longitude: lon,
     date: DateTime.now().add(const Duration(days: 1)),
   ))['sunrise']!;
   final sunsetToday = (await requestSunriseSunset(
-    latitude: 45.037874,
-    longitude: 38.975054,
+    latitude: lat,
+    longitude: lon,
   ))['sunset']!;
   final resultNightPlanetHour = computeNightPlanetHours(
     sunriseTomorrow: sunriseTomorrow,
@@ -81,10 +86,13 @@ Future<MapEntry<DateTime, double>> getNightPlanetHours() async {
   return MapEntry(sunsetToday, resultNightPlanetHour);
 }
 
-Future<MapEntry<DateTime, double>> getDayPlanetHours() async {
+Future<MapEntry<DateTime, double>> getDayPlanetHours(
+  double lat,
+  double lon,
+) async {
   final sunriseSunset = await requestSunriseSunset(
-    latitude: 45.037874,
-    longitude: 38.975054,
+    latitude: lat,
+    longitude: lon,
     date: DateTime.now(),
   );
   final sunriseToday = sunriseSunset['sunrise']!;

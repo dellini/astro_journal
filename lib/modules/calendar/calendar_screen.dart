@@ -1,6 +1,7 @@
 import 'package:astro_journal/date_extensions.dart';
 import 'package:astro_journal/modules/calendar/planets_service.dart';
 import 'package:astro_journal/util/geolocator.dart';
+import 'package:astro_journal/util/lunar_phase.dart';
 import 'package:astro_journal/widgets/export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
@@ -24,22 +25,25 @@ const _textStyle = TextStyle(
 
 class _CalendarScreenState extends State<CalendarScreen> {
   late final DateTime now;
+  late final moon = MoonPhase();
   Sign? _sign;
   late DateTime _selectedDay;
+  double _currentAngle = -1;
 
   @override
   void initState() {
     super.initState();
     now = DateTime.now();
     _selectedDay = now;
+    _currentAngle = moon.getPhaseAngle(_selectedDay);
+
     determinePosition().then((value) async {
       _sign = await requestMoonSign(
         date: now,
         lon: value.longitude,
         lat: value.latitude,
       );
-      // ignore: avoid_print
-      print(_sign);
+
       setState(() {});
     });
   }
@@ -101,7 +105,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               DateFormat('d MMMM', 'ru').format(_selectedDay),
                               textAlign: TextAlign.center,
                               style: _textStyle.copyWith(
-                                color: Colors.amberAccent,
+                                color: Colors.white,
                                 fontSize: 30,
                               ),
                             ),
@@ -120,15 +124,28 @@ class _CalendarScreenState extends State<CalendarScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 16),
-                                Text(
-                                  _sign != null
-                                      ? 'Луна ${_sign!.declinationName}'
-                                      : '',
-                                  textAlign: TextAlign.center,
-                                  style: _textStyle.copyWith(
-                                    color: Colors.amberAccent,
-                                    fontSize: 24,
-                                  ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      _sign != null
+                                          ? 'Луна ${_sign!.declinationName}'
+                                          : '',
+                                      textAlign: TextAlign.center,
+                                      style: _textStyle.copyWith(
+                                        fontFamily: 'TenorSans',
+                                        color: Colors.amberAccent,
+                                        fontSize: 24,
+                                      ),
+                                    ),
+                                    Text(
+                                      getLunarPhase(
+                                        _currentAngle,
+                                      ),
+                                      style: _textStyle.copyWith(
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -172,6 +189,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         pageScrollPhysics: const NeverScrollableScrollPhysics(),
                         onDayPressed: (day, _) async {
                           final position = await determinePosition();
+
                           final sign = await requestMoonSign(
                             date: day,
                             lon: position.longitude,
@@ -180,6 +198,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
                           setState(() {
                             _selectedDay = day;
+                            _currentAngle = moon.getPhaseAngle(_selectedDay);
                             _sign = sign;
                           });
                         },

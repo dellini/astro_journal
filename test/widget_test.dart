@@ -13,15 +13,15 @@ void main() {
         .toString());
   });
   test('Ночной планетарный час', () async {
-    debugPrint((await getNightPlanetHours()).toString());
+    debugPrint((await getNightPlanetHours(0.0, 0.0)).toString());
   });
   test('Дневной планетарный час', () async {
-    debugPrint((await getDayPlanetHours()).toString());
+    debugPrint((await getDayPlanetHours(0.0, 0.0)).toString());
   });
 
   test('Расчёт часов', () async {
-    final nightPlanetHour = await getNightPlanetHours();
-    final dayPlanetHour = await getDayPlanetHours();
+    final nightPlanetHour = await getNightPlanetHours(0.0, 0.0);
+    final dayPlanetHour = await getDayPlanetHours(0.0, 0.0);
     final resultNight = calculatePlanetHoursInPeriod(
       startTime: nightPlanetHour.key,
       hourDuration: nightPlanetHour.value,
