@@ -1,46 +1,34 @@
 import 'package:astro_journal/modules/calendar/calendar_screen.dart';
-import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_screen.dart';
-import 'package:astro_journal/modules/daily_card/binding.dart';
 import 'package:astro_journal/modules/daily_card/daily_card_screen.dart';
 import 'package:astro_journal/modules/history/card_history_screen.dart';
-import 'package:astro_journal/modules/home/binding.dart';
 import 'package:astro_journal/modules/home/home_screen.dart';
-import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 abstract class Routes {
-  static final main = GetPage<dynamic>(
-    name: '/main',
-    binding: HomeBinding(),
-    page: () => HomeScreen(
-      onGoCardHistory: () => Get.toNamed<void>(cardHistory.name),
-      onGoDailyTarot: () => Get.toNamed<void>(dailyCard.name),
-      onGoLunarCalendar: () => Get.toNamed<void>(calendar.name),
+  static final router = GoRouter(
+    routes: [main, dailyCard, cardHistory, calendar],
+    initialLocation: main.path,
+  );
+
+  static final main = GoRoute(
+    path: '/',
+    builder: (_, __) => HomeScreen(
+      onGoCardHistory: () => router.push(cardHistory.path),
+      onGoDailyTarot: () => router.push(dailyCard.path),
+      onGoLunarCalendar: () => router.push(calendar.path),
       onGoDiary: () {},
     ),
   );
-  static final dailyCard = GetPage<dynamic>(
-    name: '/dailyCard',
-    binding: DailyCardBinding(),
-    page: () => const DailyCardScreen(),
+  static final dailyCard = GoRoute(
+    path: '/dailyCard',
+    builder: (_, __) => const DailyCardScreen(),
   );
-  static final cardHistory = GetPage<dynamic>(
-    name: '/cardHistory',
-    page: CardHistoryScreen.new,
+  static final cardHistory = GoRoute(
+    path: '/cardHistory',
+    builder: (_, __) => const CardHistoryScreen(),
   );
-  static final calendar = GetPage<dynamic>(
-    name: '/calendar',
-    page: () => const CalendarScreen(),
+  static final calendar = GoRoute(
+    path: '/calendar',
+    builder: (_, __) => const CalendarScreen(),
   );
-  static final planetHours = GetPage<dynamic>(
-    name: '/planetHours',
-    page: () => const PlanetHoursScreen(),
-  );
-
-  static final routes = [
-    main,
-    dailyCard,
-    cardHistory,
-    calendar,
-    planetHours,
-  ];
 }

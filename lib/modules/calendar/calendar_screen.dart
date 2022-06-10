@@ -87,9 +87,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                   child: Column(
                     children: [
-                      const SizedBox(
-                        height: 16,
-                      ),
+                      const SizedBox(height: 16),
                       const Icon(
                         Icons.arrow_drop_up_rounded,
                         size: 32,

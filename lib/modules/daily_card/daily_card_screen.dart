@@ -1,12 +1,10 @@
 import 'package:astro_journal/data/export.dart';
-import 'package:astro_journal/modules/daily_card/daily_card_controller.dart';
 import 'package:astro_journal/modules/daily_card/daily_card_cubit.dart';
 import 'package:astro_journal/widgets/export.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -16,14 +14,15 @@ const _textStyle = TextStyle(
   color: Colors.amberAccent,
 );
 
-class DailyCardScreen extends GetView<DailyCardController> {
+class DailyCardScreen extends StatelessWidget {
   const DailyCardScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DailyCardCubit, DailyCardState>(
-      bloc: controller.dailyCardCubit,
       builder: (context, state) {
+        final dailyCardCubit = context.read<DailyCardCubit>();
+
         return DecoratedBox(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -75,7 +74,8 @@ class DailyCardScreen extends GetView<DailyCardController> {
                       width: MediaQuery.of(context).size.width,
                       child: BouncingWidget(
                         child: ElevatedButton(
-                          onPressed: controller.dailyCardCubit.getRandomCard,
+                          onPressed:
+                              context.read<DailyCardCubit>().getRandomCard,
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
                               const Color.fromARGB(255, 20, 20, 20),
@@ -113,13 +113,13 @@ class DailyCardScreen extends GetView<DailyCardController> {
                     right: 0,
                   ),
                 const PositionedBackButton(),
-                if (controller.dailyCardCubit.state is DailyCardResult)
+                if (dailyCardCubit.state is DailyCardResult)
                   Positioned(
                     right: 16,
                     top: 16,
                     child: SafeArea(
                       child: IconButton(
-                        onPressed: controller.dailyCardCubit.resetCard,
+                        onPressed: dailyCardCubit.resetCard,
                         icon: const Icon(
                           Icons.refresh_rounded,
                           color: Colors.amberAccent,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:astro_journal/data/export.dart';
+import 'package:astro_journal/date_extensions.dart';
 import 'package:astro_journal/modules/daily_card/tarot_service.dart';
 import 'package:astro_journal/modules/history/hive_card_history_repository.dart';
 import 'package:bloc/bloc.dart';
@@ -25,15 +26,17 @@ class DailyCardCubit extends Cubit<DailyCardState> {
   final TarotHistoryRepositoryHive historyRepository;
   final FirebaseStorage firebaseStorage;
 
-  late final BehaviorSubject<List<TarotCardDTO>> _history = BehaviorSubject();
+  late final BehaviorSubject<Map<DateTime, List<TarotCardDTO>>> _history =
+      BehaviorSubject();
 
-  Stream<List<TarotCardDTO>> get history => _history.stream;
+  Stream<Map<DateTime, List<TarotCardDTO>>> get history => _history.stream;
 
   DailyCardCubit({
     required this.historyRepository,
     required this.firebaseStorage,
   }) : super(DailyCardInitial()) {
-    historyRepository.tarotCardHistory.then<void>(_history.add);
+    historyRepository.tarotCardHistory
+        .then<void>((v) => _history.add(_transformData(v)));
   }
 
   Future<void> getRandomCard() async {
@@ -54,7 +57,11 @@ class DailyCardCubit extends Cubit<DailyCardState> {
         final cardWithImage = card.copyWith(imageUrl: imageUrl);
 
         await historyRepository.addCardToHistory(cardWithImage);
-        _history.sink.add(await historyRepository.tarotCardHistory);
+
+        final history = await historyRepository.tarotCardHistory;
+
+        _history.sink.add(_transformData(history));
+
         setCard(cardWithImage);
       } else {
         emit(DailyCardFailure());
@@ -73,8 +80,11 @@ class DailyCardCubit extends Cubit<DailyCardState> {
   }
 
   Future<void> clearHistory() async {
-    await historyRepository
-        .deleteAllCards(_history.value.map((e) => e.tarotCard));
+    await historyRepository.deleteAllCards(
+      _history.value.entries.expand(
+        (e) => e.value.map((e) => e.tarotCard),
+      ),
+    );
   }
 
   Future<void> fixCardsUrls() async {
@@ -93,5 +103,13 @@ class DailyCardCubit extends Cubit<DailyCardState> {
 
   void dispose() {
     _history.close();
+  }
+
+  Map<DateTime, List<TarotCardDTO>> _transformData(List<TarotCardDTO> data) {
+    final grouped = <DateTime, List<TarotCardDTO>>{};
+    for (final card in data) {
+      grouped.putIfAbsent(card.createdAt.date, () => []).add(card);
+    }
+    return grouped;
   }
 }

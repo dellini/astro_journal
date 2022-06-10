@@ -4,13 +4,14 @@ import 'package:astro_journal/data/export.dart';
 import 'package:astro_journal/firebase_options.dart';
 import 'package:astro_journal/modules/daily_card/daily_card_cubit.dart';
 import 'package:astro_journal/modules/history/hive_card_history_repository.dart';
+import 'package:astro_journal/modules/home/affirmation/affirmation_cubit.dart';
 import 'package:astro_journal/routes.dart';
 import 'package:astro_journal/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -54,23 +55,25 @@ Future<void> main() async {
   );
   await dailyCardCubit.fixCardsUrls();
 
+  final affirmationCubit = AffirmationCubit();
+  unawaited(affirmationCubit.getAffirmation());
+
   await initializeDateFormatting('ru');
   Intl.systemLocale = await findSystemLocale();
 
-  Get
-    ..put(dailyCardCubit)
-    ..put(historyRepository);
-
   runApp(
-    GetMaterialApp(
-      theme: ThemeData(
-        splashFactory: NoSplash.splashFactory,
-        // splashColor: Colors.transparent,
-        // highlightColor: Colors.transparent,
-        // hoverColor: Colors.transparent,
+    MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: dailyCardCubit),
+        BlocProvider.value(value: affirmationCubit),
+      ],
+      child: MaterialApp.router(
+        theme: ThemeData(
+          splashFactory: NoSplash.splashFactory,
+        ),
+        routeInformationParser: Routes.router.routeInformationParser,
+        routerDelegate: Routes.router.routerDelegate,
       ),
-      initialRoute: Routes.main.name,
-      getPages: Routes.routes,
     ),
   );
 }

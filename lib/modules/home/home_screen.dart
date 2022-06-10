@@ -1,10 +1,9 @@
 import 'package:astro_journal/modules/home/affirmation/affirmation_cubit.dart';
-import 'package:astro_journal/modules/home/home_controller.dart';
 import 'package:astro_journal/widgets/export.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeScreen extends GetView<HomeController> {
+class HomeScreen extends StatelessWidget {
   final VoidCallback? onGoDailyTarot;
   final VoidCallback? onGoCardHistory;
   final VoidCallback? onGoLunarCalendar;
@@ -52,11 +51,9 @@ class HomeScreen extends GetView<HomeController> {
                           const SizedBox(height: 16),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 36),
-                            child: StreamBuilder<AffirmationState>(
-                              stream: controller.affirmationState,
-                              builder: (context, data) {
-                                final state = data.data;
-
+                            child:
+                                BlocBuilder<AffirmationCubit, AffirmationState>(
+                              builder: (context, state) {
                                 if (state is AffirmationResult) {
                                   return Text(
                                     state.affirmation,
