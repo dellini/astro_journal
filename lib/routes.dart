@@ -1,4 +1,5 @@
 import 'package:astro_journal/modules/calendar/calendar_screen.dart';
+import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_screen.dart';
 import 'package:astro_journal/modules/daily_card/daily_card_screen.dart';
 import 'package:astro_journal/modules/history/card_history_screen.dart';
 import 'package:astro_journal/modules/home/home_screen.dart';
@@ -6,7 +7,7 @@ import 'package:go_router/go_router.dart';
 
 abstract class Routes {
   static final router = GoRouter(
-    routes: [main, dailyCard, cardHistory, calendar],
+    routes: [main, dailyCard, cardHistory, calendar, planetHours],
     initialLocation: main.path,
   );
 
@@ -29,6 +30,12 @@ abstract class Routes {
   );
   static final calendar = GoRoute(
     path: '/calendar',
-    builder: (_, __) => const CalendarScreen(),
+    builder: (_, __) => CalendarScreen(
+      onGoPlanetHours: () => router.push(planetHours.path),
+    ),
+  );
+  static final planetHours = GoRoute(
+    path: '/planetHours',
+    builder: (_, __) => const PlanetHoursScreen(),
   );
 }

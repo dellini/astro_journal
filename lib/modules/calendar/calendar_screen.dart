@@ -1,9 +1,11 @@
 import 'package:astro_journal/date_extensions.dart';
+import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_controller.dart';
 import 'package:astro_journal/modules/calendar/planets_service.dart';
 import 'package:astro_journal/util/geolocator.dart';
 import 'package:astro_journal/util/lunar_phase.dart';
 import 'package:astro_journal/widgets/export.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +13,14 @@ import 'package:moon_phase/moon_phase.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class CalendarScreen extends StatefulWidget {
-  const CalendarScreen({Key? key}) : super(key: key);
+  final VoidCallback? onGoPlanetHours;
+  final VoidCallback? onGoDiary;
+
+  const CalendarScreen({
+    Key? key,
+    this.onGoPlanetHours,
+    this.onGoDiary,
+  }) : super(key: key);
 
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
@@ -158,13 +167,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               text: 'ДНЕВНИК МЫСЛЕЙ',
                               fontSize: 18,
                               splashFactory: NoSplash.splashFactory,
-                              onPressed: () {},
+                              onPressed: widget.onGoDiary,
                             ),
                             AppButton(
                               text: 'ПЛАНЕТАРНЫЕ ЧАСЫ',
                               fontSize: 18,
                               splashFactory: NoSplash.splashFactory,
-                              onPressed: () {},
+                              onPressed: () {
+                                context.read<PlanetHoursCubit>()
+                                  ..reset()
+                                  ..computePlanetHours(
+                                    dateTime: _selectedDay,
+                                  );
+                                widget.onGoPlanetHours?.call();
+                              },
                             ),
                             const SizedBox(height: 40),
                           ],

@@ -3,8 +3,6 @@ import 'dart:math' as math;
 String getLunarPhase(double rad) {
   var result = '';
   final angle = ((rad * 180) / math.pi).round();
-  // ignore: avoid_print
-  print(angle);
 
   if (angle <= 9 || angle > 356) {
     result = 'Полнолуние';

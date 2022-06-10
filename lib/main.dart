@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:astro_journal/data/export.dart';
 import 'package:astro_journal/firebase_options.dart';
+import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_controller.dart';
 import 'package:astro_journal/modules/daily_card/daily_card_cubit.dart';
 import 'package:astro_journal/modules/history/hive_card_history_repository.dart';
 import 'package:astro_journal/modules/home/affirmation/affirmation_cubit.dart';
@@ -58,6 +59,8 @@ Future<void> main() async {
   final affirmationCubit = AffirmationCubit();
   unawaited(affirmationCubit.getAffirmation());
 
+  final planetHoursCubit = PlanetHoursCubit();
+
   await initializeDateFormatting('ru');
   Intl.systemLocale = await findSystemLocale();
 
@@ -66,6 +69,7 @@ Future<void> main() async {
       providers: [
         BlocProvider.value(value: dailyCardCubit),
         BlocProvider.value(value: affirmationCubit),
+        BlocProvider.value(value: planetHoursCubit),
       ],
       child: MaterialApp.router(
         theme: ThemeData(

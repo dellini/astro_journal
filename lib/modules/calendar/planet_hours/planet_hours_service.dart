@@ -66,18 +66,20 @@ PlanetHourComputeResult calculatePlanetHoursInPeriod({
   return result;
 }
 
-Future<MapEntry<DateTime, double>> getNightPlanetHours(
-  double lat,
-  double lon,
-) async {
+Future<MapEntry<DateTime, double>> getNightPlanetHours({
+  required double lat,
+  required double lon,
+  DateTime? dateTime,
+}) async {
   final sunriseTomorrow = (await requestSunriseSunset(
     latitude: lat,
     longitude: lon,
-    date: DateTime.now().add(const Duration(days: 1)),
+    date: (dateTime ?? DateTime.now()).add(const Duration(days: 1)),
   ))['sunrise']!;
   final sunsetToday = (await requestSunriseSunset(
     latitude: lat,
     longitude: lon,
+    date: dateTime ?? DateTime.now(),
   ))['sunset']!;
   final resultNightPlanetHour = computeNightPlanetHours(
     sunriseTomorrow: sunriseTomorrow,
@@ -86,14 +88,15 @@ Future<MapEntry<DateTime, double>> getNightPlanetHours(
   return MapEntry(sunsetToday, resultNightPlanetHour);
 }
 
-Future<MapEntry<DateTime, double>> getDayPlanetHours(
-  double lat,
-  double lon,
-) async {
+Future<MapEntry<DateTime, double>> getDayPlanetHours({
+  required double lat,
+  required double lon,
+  DateTime? dateTime,
+}) async {
   final sunriseSunset = await requestSunriseSunset(
     latitude: lat,
     longitude: lon,
-    date: DateTime.now(),
+    date: dateTime ?? DateTime.now(),
   );
   final sunriseToday = sunriseSunset['sunrise']!;
   final sunsetToday = sunriseSunset['sunset']!;

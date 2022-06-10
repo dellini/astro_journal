@@ -40,5 +40,15 @@ Future<Position> determinePosition() async {
   // When we reach here, permissions are granted and we can
   // continue accessing the position of the device.
   // ignore: unnecessary_await_in_return
+  return const Position(
+    longitude: 45.035594,
+    heading: 0,
+    timestamp: null,
+    latitude: 38.974814,
+    accuracy: 0,
+    altitude: 0,
+    speed: 0,
+    speedAccuracy: 0,
+  );
   return await Geolocator.getCurrentPosition();
 }
