@@ -2,13 +2,12 @@ import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_control
 import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_data.dart';
 import 'package:astro_journal/theme.dart';
 import 'package:astro_journal/widgets/export.dart';
-import 'package:astro_journal/widgets/positioned_back_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 const _textStyle = TextStyle(
-  fontFamily: 'TenorSans',
+  fontFamily: 'Lora',
   fontSize: 16,
   color: Colors.amberAccent,
 );
@@ -54,8 +53,8 @@ class _PlanetHoursScreenState extends State<PlanetHoursScreen> {
                             Text(
                               'Планетарные часы',
                               style: _textStyle.copyWith(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
+                                fontFamily: 'TenorSans',
+                                fontSize: 24,
                               ),
                             ),
                             Text(
@@ -64,25 +63,32 @@ class _PlanetHoursScreenState extends State<PlanetHoursScreen> {
                               ),
                               style: _textStyle.copyWith(
                                 color: Colors.white,
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                                fontFamily: 'TenorSans',
                               ),
                             ),
                             const SizedBox(height: 24),
                             Text(
                               'Восход солнца: ${dateFormat.format(_cubit.dayHours.valueOrNull!.startDateTime)}',
-                              style: _textStyle,
+                              style: _textStyle.copyWith(
+                                fontSize: 20,
+                                fontFamily: 'TenorSans',
+                              ),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 8),
                             Text(
                               'Заход солнца: ${dateFormat.format(_cubit.nightHours.valueOrNull!.startDateTime)}',
-                              style: _textStyle,
+                              style: _textStyle.copyWith(
+                                fontSize: 20,
+                                fontFamily: 'TenorSans',
+                              ),
                             ),
                             const SizedBox(height: 24),
                             Text(
                               'Дневные часы',
                               style: _textStyle.copyWith(
                                 fontSize: 20,
+                                fontFamily: 'TenorSans',
                               ),
                             ),
                             const SizedBox(height: 16),
@@ -92,11 +98,13 @@ class _PlanetHoursScreenState extends State<PlanetHoursScreen> {
                               'Ночные часы',
                               style: _textStyle.copyWith(
                                 fontSize: 20,
+                                fontFamily: 'TenorSans',
                               ),
                             ),
                             const SizedBox(height: 16),
                             _HoursDetails(
-                                hours: _cubit.nightHours.value!.hours),
+                              hours: _cubit.nightHours.value!.hours,
+                            ),
                             const SizedBox(height: 40),
                           ],
                         ),
@@ -140,7 +148,7 @@ class _HoursDetails extends StatelessWidget {
                 planetDateFormat.format(hour.begin),
                 style: _textStyle.copyWith(
                   color: Colors.white,
-                  fontSize: 17,
+                  fontSize: 18,
                 ),
                 textAlign: TextAlign.right,
               ),
@@ -161,7 +169,7 @@ class _HoursDetails extends StatelessWidget {
                 planetDateFormat.format(hour.end),
                 style: _textStyle.copyWith(
                   color: Colors.white,
-                  fontSize: 17,
+                  fontSize: 18,
                 ),
                 textAlign: TextAlign.left,
               ),
@@ -169,7 +177,7 @@ class _HoursDetails extends StatelessWidget {
             const SizedBox(width: 12),
             Text(
               hour.planetName,
-              style: _textStyle,
+              style: _textStyle.copyWith(fontSize: 20),
             ),
           ],
         );
