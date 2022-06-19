@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:astro_journal/data/diary_note.dart';
 import 'package:astro_journal/data/export.dart';
 import 'package:astro_journal/firebase_options.dart';
+import 'package:astro_journal/modules/calendar/diary/diary_cubit.dart';
+import 'package:astro_journal/modules/calendar/hive_diary_note_repository.dart';
 import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_controller.dart';
 import 'package:astro_journal/modules/daily_card/daily_card_cubit.dart';
 import 'package:astro_journal/modules/history/hive_card_history_repository.dart';
@@ -42,11 +45,14 @@ Future<void> main() async {
 
   Hive
     ..registerAdapter<TarotCard>(TarotCardAdapter())
-    ..registerAdapter<TarotCardDTO>(TarotCardDTOAdapter());
+    ..registerAdapter<TarotCardDTO>(TarotCardDTOAdapter())
+    ..registerAdapter<DiaryNote>(DiaryNoteAdapter());
 
   await Hive.initFlutter();
   final historyBox =
       await Hive.openBox<TarotCardDTO>(TarotHistoryRepositoryHive.boxName);
+  final diaryNotesBox =
+      await Hive.openBox<DiaryNote>(DiaryNoteRepositoryHive.boxName);
 
   final historyRepository = TarotHistoryRepositoryHive(historyBox);
 
@@ -60,6 +66,9 @@ Future<void> main() async {
   unawaited(affirmationCubit.getAffirmation());
 
   final planetHoursCubit = PlanetHoursCubit();
+  final diaryNotesCubit = DiaryNotesCubit(
+    diaryNotesRepository: DiaryNoteRepositoryHive(diaryNotesBox),
+  );
 
   await initializeDateFormatting('ru');
   Intl.systemLocale = await findSystemLocale();
@@ -70,6 +79,7 @@ Future<void> main() async {
         BlocProvider.value(value: dailyCardCubit),
         BlocProvider.value(value: affirmationCubit),
         BlocProvider.value(value: planetHoursCubit),
+        BlocProvider.value(value: diaryNotesCubit),
       ],
       child: MaterialApp.router(
         theme: ThemeData(
