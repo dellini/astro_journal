@@ -14,6 +14,10 @@ class DiaryNoteRepositoryHive {
     return notes;
   }
 
+  List<DiaryNote> getAll() {
+    return box.values.toList();
+  }
+
   Future<void> save(DiaryNote note) async {
     await box.put(note.id, note);
   }

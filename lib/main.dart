@@ -4,7 +4,7 @@ import 'package:astro_journal/data/diary_note.dart';
 import 'package:astro_journal/data/export.dart';
 import 'package:astro_journal/firebase_options.dart';
 import 'package:astro_journal/modules/calendar/diary/diary_cubit.dart';
-import 'package:astro_journal/modules/calendar/hive_diary_note_repository.dart';
+import 'package:astro_journal/modules/calendar/diary/hive_diary_note_repository.dart';
 import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_controller.dart';
 import 'package:astro_journal/modules/daily_card/daily_card_cubit.dart';
 import 'package:astro_journal/modules/history/hive_card_history_repository.dart';

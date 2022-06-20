@@ -1,4 +1,5 @@
 import 'package:astro_journal/date_extensions.dart';
+import 'package:astro_journal/modules/calendar/diary/diary_cubit.dart';
 import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_controller.dart';
 import 'package:astro_journal/modules/calendar/planets_service.dart';
 import 'package:astro_journal/util/geolocator.dart';
@@ -167,7 +168,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
                               text: 'ДНЕВНИК МЫСЛЕЙ',
                               fontSize: 18,
                               splashFactory: NoSplash.splashFactory,
-                              onPressed: widget.onGoDiary,
+                              onPressed: () {
+                                context
+                                    .read<DiaryNotesCubit>()
+                                    .loadNotes(_selectedDay);
+                                widget.onGoDiary?.call();
+                              },
                             ),
                             AppButton(
                               text: 'ПЛАНЕТАРНЫЕ ЧАСЫ',
