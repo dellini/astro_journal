@@ -1,4 +1,3 @@
-
 import 'package:astro_journal/date_extensions.dart';
 import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_data.dart';
 
@@ -112,7 +111,7 @@ Future<Map<String, DateTime>> requestSunriseSunset({
   DateTime? date,
 }) async {
   try {
-    final targetDate = (date ?? DateTime.now()).date;
+    final targetDate = (date ?? DateTime.now()).onlyDate;
     final url = Uri.parse('https://api.sunrise-sunset.org/json').replace(
       queryParameters: <String, String>{
         'lat': latitude.toString(),

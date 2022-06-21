@@ -243,7 +243,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           isThisMonthDay,
                           day,
                         ) {
-                          if (day.date == now.date) {
+                          if (day.onlyDate == now.onlyDate) {
                             return Container(
                               alignment: Alignment.center,
                               child: Text(

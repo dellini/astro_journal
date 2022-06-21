@@ -8,8 +8,8 @@ class TarotHistoryRepositoryHive {
   final Box<TarotCardDTO> box;
 
   Future<List<TarotCardDTO>> get tarotCardHistory async {
-    final finishDate = DateTime.now().add(const Duration(days: 1)).date;
-    final startDate = finishDate.subtract(const Duration(days: 7)).date;
+    final finishDate = DateTime.now().add(const Duration(days: 1)).onlyDate;
+    final startDate = finishDate.subtract(const Duration(days: 7)).onlyDate;
     final markForDeleting = <TarotCard>[];
     final periodHistory = box.values
         .map((e) {

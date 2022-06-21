@@ -108,7 +108,7 @@ class DailyCardCubit extends Cubit<DailyCardState> {
   Map<DateTime, List<TarotCardDTO>> _transformData(List<TarotCardDTO> data) {
     final grouped = <DateTime, List<TarotCardDTO>>{};
     for (final card in data) {
-      grouped.putIfAbsent(card.createdAt.date, () => []).add(card);
+      grouped.putIfAbsent(card.createdAt.onlyDate, () => []).add(card);
     }
     return grouped;
   }

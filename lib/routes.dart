@@ -1,11 +1,9 @@
-import 'package:astro_journal/data/diary_note.dart';
 import 'package:astro_journal/modules/calendar/calendar_screen.dart';
 import 'package:astro_journal/modules/calendar/diary/diary_screen.dart';
 import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_screen.dart';
 import 'package:astro_journal/modules/daily_card/daily_card_screen.dart';
 import 'package:astro_journal/modules/history/card_history_screen.dart';
 import 'package:astro_journal/modules/home/home_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class Routes {

@@ -10,7 +10,7 @@ class DiaryNoteRepositoryHive {
   DiaryNoteRepositoryHive(this.box);
 
   List<DiaryNote> getNotesByDate(DateTime date) {
-    final notes = box.values.where((e) => e.date.date == date).toList();
+    final notes = box.values.where((e) => e.date.onlyDate == date).toList();
     return notes;
   }
 

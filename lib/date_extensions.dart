@@ -4,7 +4,7 @@ extension ExtDateTime on DateTime {
 
   static DateTime midnight = DateTime(0, 0, 0, 23, 60);
 
-  DateTime get date => DateTime(year, month, day);
+  DateTime get onlyDate => DateTime(year, month, day);
 }
 
 extension ExtDuration on Duration {

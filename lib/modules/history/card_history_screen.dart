@@ -64,7 +64,7 @@ class CardHistoryScreen extends StatelessWidget {
                                   fontSize: 21,
                                 ),
                                 children: [
-                                  if (day.key.date == now.date)
+                                  if (day.key.onlyDate == now.onlyDate)
                                     const TextSpan(text: 'сегодня, '),
                                   TextSpan(
                                     text: DateFormat('d MMMM', 'ru')
