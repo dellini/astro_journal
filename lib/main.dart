@@ -55,6 +55,7 @@ Future<void> main() async {
       await Hive.openBox<DiaryNote>(DiaryNoteRepositoryHive.boxName);
 
   final historyRepository = TarotHistoryRepositoryHive(historyBox);
+  final diaryRepository = DiaryNoteRepositoryHive(diaryNotesBox);
 
   final dailyCardCubit = DailyCardCubit(
     historyRepository: historyRepository,
@@ -67,26 +68,31 @@ Future<void> main() async {
 
   final planetHoursCubit = PlanetHoursCubit();
   final diaryNotesCubit = DiaryNotesCubit(
-    diaryNotesRepository: DiaryNoteRepositoryHive(diaryNotesBox),
+    diaryNotesRepository: diaryRepository,
   );
 
   await initializeDateFormatting('ru');
   Intl.systemLocale = await findSystemLocale();
 
   runApp(
-    MultiBlocProvider(
+    MultiRepositoryProvider(
       providers: [
-        BlocProvider.value(value: dailyCardCubit),
-        BlocProvider.value(value: affirmationCubit),
-        BlocProvider.value(value: planetHoursCubit),
-        BlocProvider.value(value: diaryNotesCubit),
+        RepositoryProvider.value(value: diaryRepository),
       ],
-      child: MaterialApp.router(
-        theme: ThemeData(
-          splashFactory: NoSplash.splashFactory,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: dailyCardCubit),
+          BlocProvider.value(value: affirmationCubit),
+          BlocProvider.value(value: planetHoursCubit),
+          BlocProvider.value(value: diaryNotesCubit),
+        ],
+        child: MaterialApp.router(
+          theme: ThemeData(
+            splashFactory: NoSplash.splashFactory,
+          ),
+          routeInformationParser: Routes.router.routeInformationParser,
+          routerDelegate: Routes.router.routerDelegate,
         ),
-        routeInformationParser: Routes.router.routeInformationParser,
-        routerDelegate: Routes.router.routerDelegate,
       ),
     ),
   );

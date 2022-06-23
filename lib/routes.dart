@@ -1,15 +1,27 @@
+import 'package:astro_journal/data/diary_note.dart';
 import 'package:astro_journal/modules/calendar/calendar_screen.dart';
+import 'package:astro_journal/modules/calendar/diary/diary_create_screen.dart';
+import 'package:astro_journal/modules/calendar/diary/diary_cubit.dart';
 import 'package:astro_journal/modules/calendar/diary/diary_screen.dart';
 import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_screen.dart';
 import 'package:astro_journal/modules/daily_card/daily_card_screen.dart';
 import 'package:astro_journal/modules/history/card_history_screen.dart';
 import 'package:astro_journal/modules/home/home_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 abstract class Routes {
   static final router = GoRouter(
-    routes: [main, dailyCard, cardHistory, calendar, planetHours, diary],
     initialLocation: main.path,
+    routes: [
+      main,
+      dailyCard,
+      cardHistory,
+      calendar,
+      planetHours,
+      diary,
+      diaryEdit,
+    ],
   );
 
   static final main = GoRoute(
@@ -18,7 +30,10 @@ abstract class Routes {
       onGoCardHistory: () => router.push(cardHistory.path),
       onGoDailyTarot: () => router.push(dailyCard.path),
       onGoLunarCalendar: () => router.push(calendar.path),
-      onGoDiary: () => router.push(diary.path),
+      onGoDiary: () {
+        _.read<DiaryNotesCubit>().loadNotes();
+        router.push(diary.path);
+      },
     ),
   );
   static final dailyCard = GoRoute(
@@ -44,4 +59,24 @@ abstract class Routes {
     path: '/diaryScreen',
     builder: (_, __) => const DiaryScreen(),
   );
+  static final diaryEdit = GoRoute(
+    path: '${diary.path}/edit',
+    builder: (_, __) {
+      final args = __.extra != null ? __.extra as DiaryArgs? : null;
+      return DiaryEditScreen(
+        initial: args?.note,
+        dateTime: args?.date,
+      );
+    },
+  );
+}
+
+class DiaryArgs {
+  final DiaryNote? note;
+  final DateTime? date;
+
+  DiaryArgs({
+    this.note,
+    this.date,
+  });
 }

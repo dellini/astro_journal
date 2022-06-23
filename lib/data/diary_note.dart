@@ -41,10 +41,11 @@ class DiaryNote with EquatableMixin {
     String? thoughts,
     String? emotion,
     String? bodyReaction,
+    DateTime? date,
   }) {
     return DiaryNote(
       id: id,
-      date: date,
+      date: date ?? this.date,
       name: name ?? this.name,
       situation: situation ?? this.situation,
       thoughts: thoughts ?? this.thoughts,

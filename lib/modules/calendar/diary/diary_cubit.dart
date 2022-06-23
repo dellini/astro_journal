@@ -21,7 +21,7 @@ class DiaryNotesCubit extends Cubit<DiaryNotesState> {
     required this.diaryNotesRepository,
   }) : super(DiaryNotesState.initial);
 
-  void loadNotes(DateTime? date) {
+  void loadNotes([DateTime? date]) {
     emit(DiaryNotesState.loading);
     if (date == null) {
       _notes = diaryNotesRepository.getAll();
@@ -31,6 +31,10 @@ class DiaryNotesCubit extends Cubit<DiaryNotesState> {
     _notesByDay = _groupNotesByDay(notes);
 
     emit(DiaryNotesState.updated);
+  }
+
+  Future<void> delete(DiaryNote note) async {
+    await diaryNotesRepository.delete(note);
   }
 
   Map<DateTime, List<DiaryNote>> _groupNotesByDay(List<DiaryNote> data) {

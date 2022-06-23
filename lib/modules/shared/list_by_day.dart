@@ -79,11 +79,13 @@ class SimpleListItem extends StatelessWidget {
   final String title;
   final DateTime date;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   const SimpleListItem({
     required this.title,
     required this.date,
     this.onTap,
+    this.onLongPress,
     Key? key,
   }) : super(key: key);
 
@@ -94,6 +96,7 @@ class SimpleListItem extends StatelessWidget {
       children: [
         InkWell(
           onTap: onTap,
+          onLongPress: onLongPress,
           child: Padding(
             padding: const EdgeInsets.only(
               top: 8,
