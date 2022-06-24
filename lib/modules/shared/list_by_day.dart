@@ -11,9 +11,11 @@ const _textStyle = TextStyle(
 class ListViewByDay<T> extends StatelessWidget {
   final Map<DateTime, List<T>> data;
   final Widget Function(T) itemBuilder;
+  final String emptyDataString;
   const ListViewByDay({
     required this.itemBuilder,
     required this.data,
+    this.emptyDataString = '',
     super.key,
   });
 
@@ -21,6 +23,14 @@ class ListViewByDay<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     final data = this.data.entries.toList();
     final now = DateTime.now();
+    if (data.isEmpty) {
+      return Center(
+        child: Text(
+          emptyDataString,
+          style: _textStyle,
+        ),
+      );
+    }
     return ListView.separated(
       shrinkWrap: true,
       padding: const EdgeInsets.only(top: 50),
@@ -62,6 +72,7 @@ class ListViewByDay<T> extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: values.length,
+              reverse: true,
               separatorBuilder: (_, __) => const SizedBox(height: 0),
               itemBuilder: (context, index) {
                 final value = values[index];
@@ -109,17 +120,19 @@ class SimpleListItem extends StatelessWidget {
                 text: TextSpan(
                   text: title,
                   style: _textStyle,
-                  children: [
-                    const TextSpan(text: '  '),
-                    TextSpan(
-                      text: DateFormat('H:mm', 'ru').format(date),
-                      style: const TextStyle(
-                        fontFamily: 'Lora',
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
+                  children: date.hour > 0 && date.minute > 0
+                      ? [
+                          const TextSpan(text: '  '),
+                          TextSpan(
+                            text: DateFormat('H:mm', 'ru').format(date),
+                            style: const TextStyle(
+                              fontFamily: 'Lora',
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ]
+                      : [],
                 ),
               ),
             ),

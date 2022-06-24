@@ -218,6 +218,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
                           setState(() {
                             _selectedDay = day;
+                            if (_selectedDay.onlyDate == now.onlyDate) {
+                              final now = DateTime.now();
+                              _selectedDay = DateTime(
+                                _selectedDay.year,
+                                _selectedDay.month,
+                                _selectedDay.day,
+                                now.hour,
+                                now.minute,
+                              );
+                            }
                             _currentAngle = moon.getPhaseAngle(_selectedDay);
                             _sign = sign;
                           });

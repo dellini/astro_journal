@@ -41,8 +41,12 @@ class _DiaryScreenState extends State<DiaryScreen> {
             child: StreamBuilder(
               stream: _diaryNotesCubit.stream,
               builder: (context, snapshot) {
+                final data = _diaryNotesCubit.notesByDay.entries.toList()
+                  ..sort((a, b) => a.key.compareTo(b.key) * -1);
+
                 return ListViewByDay<DiaryNote>(
-                  data: _diaryNotesCubit.notesByDay,
+                  emptyDataString: 'В дневнике нет записей',
+                  data: Map.fromEntries(data),
                   itemBuilder: (item) {
                     return SimpleListItem(
                       title: item.name,

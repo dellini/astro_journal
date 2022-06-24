@@ -29,6 +29,7 @@ class CardHistoryScreen extends StatelessWidget {
                     ..sort((a, b) => a.key.compareTo(b.key) * -1);
 
                   return ListViewByDay<TarotCardDTO>(
+                    emptyDataString: 'Список полученных карт пуст',
                     data: Map.fromEntries(data),
                     itemBuilder: (item) {
                       return SimpleListItem(

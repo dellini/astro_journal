@@ -30,11 +30,12 @@ class _DiaryEditScreenState extends State<DiaryEditScreen> {
   @override
   void initState() {
     super.initState();
+    _diaryListCubit = context.read();
     _diaryCreateCubit = DiaryCreateCubit(
       initial: widget.initial,
       repository: context.read(),
+      date: _diaryListCubit.loadedDate ?? DateTime.now(),
     );
-    _diaryListCubit = context.read();
   }
 
   @override

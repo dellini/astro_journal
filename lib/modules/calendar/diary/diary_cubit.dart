@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:astro_journal/data/diary_note.dart';
 import 'package:astro_journal/date_extensions.dart';
 import 'package:astro_journal/modules/calendar/diary/hive_diary_note_repository.dart';
@@ -12,10 +14,13 @@ class DiaryNotesCubit extends Cubit<DiaryNotesState> {
       Map.unmodifiable(_notesByDay);
 
   List<DiaryNote> get notes => List.unmodifiable(_notes);
+  DateTime? get loadedDate => _loadedDate;
 
   Map<DateTime, List<DiaryNote>> _notesByDay = {};
 
   List<DiaryNote> _notes = [];
+
+  DateTime? _loadedDate;
 
   DiaryNotesCubit({
     required this.diaryNotesRepository,
@@ -23,10 +28,11 @@ class DiaryNotesCubit extends Cubit<DiaryNotesState> {
 
   void loadNotes([DateTime? date]) {
     emit(DiaryNotesState.loading);
+    _loadedDate = date;
     if (date == null) {
       _notes = diaryNotesRepository.getAll();
     } else {
-      _notes = diaryNotesRepository.getNotesByDate(date);
+      _notes = diaryNotesRepository.getNotesByDate(date.onlyDate);
     }
     _notesByDay = _groupNotesByDay(notes);
 

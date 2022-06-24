@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 enum DiaryCreateState { initial, updated, error }
 
 class DiaryCreateCubit extends Cubit<DiaryCreateState> {
+  final DateTime date;
+
   final DiaryNoteRepositoryHive _repository;
 
   final DiaryNote? _originalNote;
@@ -34,8 +36,9 @@ class DiaryCreateCubit extends Cubit<DiaryCreateState> {
   late DiaryNote _edited;
 
   DiaryCreateCubit({
-    DiaryNote? initial,
     required DiaryNoteRepositoryHive repository,
+    required this.date,
+    DiaryNote? initial,
   })  : _originalNote = initial,
         _repository = repository,
         super(DiaryCreateState.initial) {
@@ -49,7 +52,7 @@ class DiaryCreateCubit extends Cubit<DiaryCreateState> {
   Future<void> save() async {
     await _repository.save(
       _edited.copyWith(
-        date: _originalNote != null ? _originalNote?.date : DateTime.now(),
+        date: _originalNote != null ? _originalNote?.date : date,
       ),
     );
   }

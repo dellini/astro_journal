@@ -20,6 +20,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl_standalone.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -74,24 +75,30 @@ Future<void> main() async {
   await initializeDateFormatting('ru');
   Intl.systemLocale = await findSystemLocale();
 
-  runApp(
-    MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider.value(value: diaryRepository),
-      ],
-      child: MultiBlocProvider(
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://328ede910a724b9f9f7afa329e31d407@o358023.ingest.sentry.io/6528582';
+    },
+    appRunner: () => runApp(
+      MultiRepositoryProvider(
         providers: [
-          BlocProvider.value(value: dailyCardCubit),
-          BlocProvider.value(value: affirmationCubit),
-          BlocProvider.value(value: planetHoursCubit),
-          BlocProvider.value(value: diaryNotesCubit),
+          RepositoryProvider.value(value: diaryRepository),
         ],
-        child: MaterialApp.router(
-          theme: ThemeData(
-            splashFactory: NoSplash.splashFactory,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: dailyCardCubit),
+            BlocProvider.value(value: affirmationCubit),
+            BlocProvider.value(value: planetHoursCubit),
+            BlocProvider.value(value: diaryNotesCubit),
+          ],
+          child: MaterialApp.router(
+            theme: ThemeData(
+              splashFactory: NoSplash.splashFactory,
+            ),
+            routeInformationParser: Routes.router.routeInformationParser,
+            routerDelegate: Routes.router.routerDelegate,
           ),
-          routeInformationParser: Routes.router.routeInformationParser,
-          routerDelegate: Routes.router.routerDelegate,
         ),
       ),
     ),
