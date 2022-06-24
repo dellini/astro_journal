@@ -33,12 +33,16 @@ const _textStyle = TextStyle(
   color: Colors.white,
 );
 
-class _CalendarScreenState extends State<CalendarScreen> {
+class _CalendarScreenState extends State<CalendarScreen>
+    with SingleTickerProviderStateMixin {
   late final DateTime now;
   late final moon = MoonPhase();
   Sign? _sign;
   late DateTime _selectedDay;
   double _currentAngle = -1;
+
+  late AnimationController _bottomIndicatorController;
+  late Animation<double> _bottomIndicatorAnimation;
 
   @override
   void initState() {
@@ -47,15 +51,32 @@ class _CalendarScreenState extends State<CalendarScreen> {
     _selectedDay = now;
     _currentAngle = moon.getPhaseAngle(_selectedDay);
 
+    _bottomIndicatorController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    _bottomIndicatorAnimation =
+        Tween<double>(begin: 0, end: 12).animate(_bottomIndicatorController)
+          ..addListener(() {
+            setState(() {});
+          });
+
+    _bottomIndicatorController.repeat(reverse: true);
+
     determinePosition().then((value) async {
       _sign = await requestMoonSign(
         date: now,
         lon: value.longitude,
         lat: value.latitude,
       );
-
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _bottomIndicatorController.dispose();
   }
 
   @override
@@ -66,7 +87,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
         child: Stack(
           children: [
             SlidingUpPanel(
-              onPanelSlide: (position) {},
+              onPanelSlide: (position) {
+                if (position == 1) {
+                  _bottomIndicatorController
+                    ..stop(canceled: false)
+                    ..reset();
+                } else if (position == 0) {
+                  _bottomIndicatorController.repeat(reverse: true);
+                }
+              },
               maxHeight: MediaQuery.of(context).size.height * 0.66,
               minHeight: MediaQuery.of(context).size.height * 0.33,
               renderPanelSheet: false,
@@ -98,10 +127,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   child: Column(
                     children: [
                       const SizedBox(height: 16),
-                      const Icon(
-                        Icons.arrow_drop_up_rounded,
-                        size: 32,
-                        color: Colors.amberAccent,
+                      AnimatedContainer(
+                        duration: const Duration(milliseconds: 100),
+                        curve: Curves.bounceIn,
+                        transform: Transform.translate(
+                          offset: Offset(
+                            0,
+                            _bottomIndicatorAnimation.value,
+                          ), // Change -100 for the y offset
+                        ).transform,
+                        child: const Icon(
+                          Icons.arrow_drop_up_rounded,
+                          size: 32,
+                          color: Colors.amberAccent,
+                        ),
                       ),
                       Container(
                         height: MediaQuery.of(context).size.height * 0.28,
