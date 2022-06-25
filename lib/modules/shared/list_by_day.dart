@@ -1,12 +1,7 @@
 import 'package:astro_journal/date_extensions.dart';
+import 'package:astro_journal/modules/shared/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-const _textStyle = TextStyle(
-  fontFamily: 'TenorSans',
-  fontSize: 24,
-  color: Colors.amberAccent,
-);
 
 class ListViewByDay<T> extends StatelessWidget {
   final Map<DateTime, List<T>> data;
@@ -27,7 +22,7 @@ class ListViewByDay<T> extends StatelessWidget {
       return Center(
         child: Text(
           emptyDataString,
-          style: _textStyle,
+          style: AppTextStyles.primaryTextStyle,
         ),
       );
     }
@@ -53,10 +48,8 @@ class ListViewByDay<T> extends StatelessWidget {
               ),
               child: RichText(
                 text: TextSpan(
-                  style: _textStyle.copyWith(
-                    fontFamily: 'Lora',
-                    color: Colors.white,
-                    fontSize: 21,
+                  style: AppTextStyles.secondaryTextStyle.copyWith(
+                    fontSize: 20,
                   ),
                   children: [
                     if (date.onlyDate == now.onlyDate)
@@ -119,16 +112,14 @@ class SimpleListItem extends StatelessWidget {
               title: RichText(
                 text: TextSpan(
                   text: title,
-                  style: _textStyle,
+                  style: AppTextStyles.primaryTextStyle,
                   children: date.hour > 0 && date.minute > 0
                       ? [
                           const TextSpan(text: '  '),
                           TextSpan(
                             text: DateFormat('H:mm', 'ru').format(date),
-                            style: const TextStyle(
-                              fontFamily: 'Lora',
+                            style: AppTextStyles.secondaryTextStyle.copyWith(
                               fontSize: 16,
-                              color: Colors.white,
                             ),
                           ),
                         ]

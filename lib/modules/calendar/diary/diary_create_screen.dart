@@ -1,17 +1,12 @@
 import 'package:astro_journal/data/diary_note.dart';
 import 'package:astro_journal/modules/calendar/diary/diary_create_cubit.dart';
 import 'package:astro_journal/modules/calendar/diary/diary_cubit.dart';
+import 'package:astro_journal/modules/shared/app_text_styles.dart';
 import 'package:astro_journal/theme.dart';
 import 'package:astro_journal/widgets/export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-const _textStyle = TextStyle(
-  fontFamily: 'TenorSans',
-  fontSize: 24,
-  color: Colors.amberAccent,
-);
 
 class DiaryEditScreen extends StatefulWidget {
   final DiaryNote? initial;
@@ -134,10 +129,8 @@ class _TextInput extends StatelessWidget {
   Widget build(BuildContext context) {
     const borderRadius = BorderRadius.all(Radius.circular(16));
     return TextFormField(
-      style: _textStyle.copyWith(
-        color: Colors.white,
+      style: AppTextStyles.secondaryTextStyle.copyWith(
         fontSize: 20,
-        fontFamily: 'Lora',
       ),
       initialValue: initialValue,
       onChanged: onChanged,
@@ -146,7 +139,7 @@ class _TextInput extends StatelessWidget {
       keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: _textStyle,
+        labelStyle: AppTextStyles.primaryTextStyle,
         fillColor: Colors.white,
         border: const OutlineInputBorder(
           borderRadius: borderRadius,

@@ -4,7 +4,6 @@ import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_data.da
 import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_service.dart';
 import 'package:astro_journal/util/geolocator.dart';
 import 'package:bloc/bloc.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PlanetHoursCubit extends Cubit<int> {

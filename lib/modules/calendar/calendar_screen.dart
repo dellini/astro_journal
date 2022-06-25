@@ -2,6 +2,7 @@ import 'package:astro_journal/date_extensions.dart';
 import 'package:astro_journal/modules/calendar/diary/diary_cubit.dart';
 import 'package:astro_journal/modules/calendar/planet_hours/planet_hours_controller.dart';
 import 'package:astro_journal/modules/calendar/planets_service.dart';
+import 'package:astro_journal/modules/shared/app_text_styles.dart';
 import 'package:astro_journal/util/geolocator.dart';
 import 'package:astro_journal/util/lunar_phase.dart';
 import 'package:astro_journal/widgets/export.dart';
@@ -26,12 +27,6 @@ class CalendarScreen extends StatefulWidget {
   @override
   State<CalendarScreen> createState() => _CalendarScreenState();
 }
-
-const _textStyle = TextStyle(
-  fontFamily: 'Lora',
-  fontSize: 18,
-  color: Colors.white,
-);
 
 class _CalendarScreenState extends State<CalendarScreen>
     with SingleTickerProviderStateMixin {
@@ -151,8 +146,7 @@ class _CalendarScreenState extends State<CalendarScreen>
                             Text(
                               DateFormat('d MMMM', 'ru').format(_selectedDay),
                               textAlign: TextAlign.center,
-                              style: _textStyle.copyWith(
-                                color: Colors.white,
+                              style: AppTextStyles.secondaryTextStyle.copyWith(
                                 fontSize: 30,
                               ),
                             ),
@@ -178,9 +172,8 @@ class _CalendarScreenState extends State<CalendarScreen>
                                           ? 'Луна ${_sign!.declinationName}'
                                           : '',
                                       textAlign: TextAlign.center,
-                                      style: _textStyle.copyWith(
-                                        fontFamily: 'TenorSans',
-                                        color: Colors.amberAccent,
+                                      style: AppTextStyles.primaryTextStyle
+                                          .copyWith(
                                         fontSize: 24,
                                       ),
                                     ),
@@ -188,7 +181,8 @@ class _CalendarScreenState extends State<CalendarScreen>
                                       getLunarPhase(
                                         _currentAngle,
                                       ),
-                                      style: _textStyle.copyWith(
+                                      style: AppTextStyles.secondaryTextStyle
+                                          .copyWith(
                                         fontSize: 16,
                                       ),
                                     ),
@@ -277,7 +271,8 @@ class _CalendarScreenState extends State<CalendarScreen>
                           top: 28,
                           bottom: 28,
                         ),
-                        headerTextStyle: _textStyle.copyWith(
+                        headerTextStyle:
+                            AppTextStyles.secondaryTextStyle.copyWith(
                           color: Colors.amberAccent,
                           fontSize: 22,
                         ),
@@ -297,7 +292,8 @@ class _CalendarScreenState extends State<CalendarScreen>
                               alignment: Alignment.center,
                               child: Text(
                                 day.day.toString(),
-                                style: _textStyle.copyWith(
+                                style:
+                                    AppTextStyles.secondaryTextStyle.copyWith(
                                   color: const Color.fromARGB(255, 32, 32, 32),
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -310,20 +306,23 @@ class _CalendarScreenState extends State<CalendarScreen>
                           }
                           return null;
                         },
-                        daysTextStyle: _textStyle,
-                        weekdayTextStyle: _textStyle,
-                        weekendTextStyle:
-                            _textStyle.copyWith(color: Colors.amberAccent),
+                        daysTextStyle: AppTextStyles.secondaryTextStyle,
+                        weekdayTextStyle: AppTextStyles.secondaryTextStyle,
+                        weekendTextStyle: AppTextStyles.secondaryTextStyle
+                            .copyWith(color: Colors.amberAccent),
                         todayButtonColor: Colors.amberAccent,
-                        todayTextStyle: _textStyle.copyWith(
+                        todayTextStyle:
+                            AppTextStyles.secondaryTextStyle.copyWith(
                           color: const Color.fromARGB(255, 32, 32, 32),
                           fontWeight: FontWeight.bold,
                         ),
-                        prevDaysTextStyle: _textStyle.copyWith(
+                        prevDaysTextStyle:
+                            AppTextStyles.secondaryTextStyle.copyWith(
                           color: Colors.white38,
                           fontSize: 14,
                         ),
-                        nextDaysTextStyle: _textStyle.copyWith(
+                        nextDaysTextStyle:
+                            AppTextStyles.secondaryTextStyle.copyWith(
                           color: Colors.white38,
                           fontSize: 14,
                         ),

@@ -1,5 +1,6 @@
 import 'package:astro_journal/data/export.dart';
 import 'package:astro_journal/modules/daily_card/daily_card_cubit.dart';
+import 'package:astro_journal/modules/shared/app_text_styles.dart';
 import 'package:astro_journal/widgets/export.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_image/firebase_image.dart';
@@ -7,12 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:transparent_image/transparent_image.dart';
-
-const _textStyle = TextStyle(
-  fontFamily: 'TenorSans',
-  fontSize: 16,
-  color: Colors.amberAccent,
-);
 
 class DailyCardScreen extends StatelessWidget {
   const DailyCardScreen({Key? key}) : super(key: key);
@@ -94,7 +89,9 @@ class DailyCardScreen extends StatelessWidget {
                           //ignore:avoid-returning-widgets
                           child: _GetTarotButtonContent(
                             state: state,
-                            style: _textStyle,
+                            style: AppTextStyles.primaryTextStyle.copyWith(
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                       ),
@@ -105,7 +102,9 @@ class DailyCardScreen extends StatelessWidget {
                     //ignore:avoid-returning-widgets
                     child: _TarotCardDescription(
                       card: state.dailyCard,
-                      style: _textStyle,
+                      style: AppTextStyles.primaryTextStyle.copyWith(
+                        fontSize: 16,
+                      ),
                     ),
                     bottom: 0,
                     height: MediaQuery.of(context).size.height * 0.4,
@@ -202,6 +201,11 @@ class _TarotCardDescription extends StatelessWidget {
         color: Color.fromARGB(155, 9, 9, 9),
       ),
     ];
+    final textStyle = style?.copyWith(
+      color: textColor,
+      fontWeight: textWeight,
+      shadows: shadows,
+    );
     return Padding(
       padding: const EdgeInsets.all(26.0),
       child: SingleChildScrollView(
@@ -210,28 +214,18 @@ class _TarotCardDescription extends StatelessWidget {
           children: [
             Text(
               'Аркан: ${card.arcane}',
-              style: style?.copyWith(
-                color: textColor,
-                fontWeight: textWeight,
-                shadows: shadows,
-              ),
+              style: textStyle,
             ),
             Text(
               'Название: ${card.name}',
-              style: style?.copyWith(
-                color: textColor,
-                fontWeight: textWeight,
-                shadows: shadows,
-              ),
+              style: textStyle,
             ),
             const SizedBox(height: 40),
             Text(
               card.meaning,
-              style: style?.copyWith(
-                fontFamily: 'Lora',
-                color: const Color.fromARGB(255, 20, 20, 20),
+              style: AppTextStyles.secondaryTextStyle.copyWith(
+                color: const Color.fromARGB(255, 32, 32, 32),
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
               ),
             ),
           ],
