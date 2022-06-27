@@ -43,69 +43,76 @@ class _DiaryEditScreenState extends State<DiaryEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      bottomSheet: Container(
-        color: AppColors.backgroundColor,
-        padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
-        child: AppButton(
-          text: 'Сохранить',
-          onPressed: () {
-            if (!_diaryCreateCubit.canSave) {
-              return;
-            }
-            FocusScope.of(context).unfocus();
-            _diaryCreateCubit.save().then((_) {
-              _diaryListCubit.loadNotes(widget.dateTime);
-              context.pop();
-            });
-          },
-        ),
-      ),
       body: SafeArea(
-        child: Stack(
+        child: Column(
           children: [
-            Positioned.fill(
-              child: StreamBuilder(
-                stream: _diaryCreateCubit.stream,
-                builder: (context, snapshot) {
-                  return ListView(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.fromLTRB(60, 80, 30, 100),
-                    children: [
-                      _TextInput(
-                        label: 'Название',
-                        initialValue: _diaryCreateCubit.name,
-                        onChanged: (s) => _diaryCreateCubit.name = s,
-                      ),
-                      const SizedBox(height: 30),
-                      _TextInput(
-                        label: 'Ситуация',
-                        initialValue: _diaryCreateCubit.situation,
-                        onChanged: (s) => _diaryCreateCubit.situation = s,
-                      ),
-                      const SizedBox(height: 30),
-                      _TextInput(
-                        label: 'Мысли',
-                        initialValue: _diaryCreateCubit.thoughts,
-                        onChanged: (s) => _diaryCreateCubit.thoughts = s,
-                      ),
-                      const SizedBox(height: 30),
-                      _TextInput(
-                        label: 'Эмоции',
-                        initialValue: _diaryCreateCubit.emotion,
-                        onChanged: (s) => _diaryCreateCubit.emotion = s,
-                      ),
-                      const SizedBox(height: 30),
-                      _TextInput(
-                        label: 'Реакция тела',
-                        initialValue: _diaryCreateCubit.bodyReaction,
-                        onChanged: (s) => _diaryCreateCubit.bodyReaction = s,
-                      ),
-                    ],
-                  );
+            Expanded(
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: StreamBuilder(
+                      stream: _diaryCreateCubit.stream,
+                      builder: (context, snapshot) {
+                        return ListView(
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.fromLTRB(60, 80, 30, 100),
+                          children: [
+                            _TextInput(
+                              label: 'Название',
+                              initialValue: _diaryCreateCubit.name,
+                              onChanged: (s) => _diaryCreateCubit.name = s,
+                            ),
+                            const SizedBox(height: 30),
+                            _TextInput(
+                              label: 'Ситуация',
+                              initialValue: _diaryCreateCubit.situation,
+                              onChanged: (s) => _diaryCreateCubit.situation = s,
+                            ),
+                            const SizedBox(height: 30),
+                            _TextInput(
+                              label: 'Мысли',
+                              initialValue: _diaryCreateCubit.thoughts,
+                              onChanged: (s) => _diaryCreateCubit.thoughts = s,
+                            ),
+                            const SizedBox(height: 30),
+                            _TextInput(
+                              label: 'Эмоции',
+                              initialValue: _diaryCreateCubit.emotion,
+                              onChanged: (s) => _diaryCreateCubit.emotion = s,
+                            ),
+                            const SizedBox(height: 30),
+                            _TextInput(
+                              label: 'Реакция тела',
+                              initialValue: _diaryCreateCubit.bodyReaction,
+                              onChanged: (s) =>
+                                  _diaryCreateCubit.bodyReaction = s,
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  const PositionedBackButton(),
+                ],
+              ),
+            ),
+            Container(
+              color: AppColors.backgroundColor,
+              padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+              child: AppButton(
+                text: 'Сохранить',
+                onPressed: () {
+                  if (!_diaryCreateCubit.canSave) {
+                    return;
+                  }
+                  FocusScope.of(context).unfocus();
+                  _diaryCreateCubit.save().then((_) {
+                    _diaryListCubit.loadNotes(widget.dateTime);
+                    context.pop();
+                  });
                 },
               ),
             ),
-            const PositionedBackButton(),
           ],
         ),
       ),
