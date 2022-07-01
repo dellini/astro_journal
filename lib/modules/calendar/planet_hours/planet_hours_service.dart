@@ -43,7 +43,7 @@ PlanetHourComputeResult calculatePlanetHoursInPeriod({
   var currentDateTime = startTime.add(localeOffset);
   final planetHourInMicroseconds = (hourDuration * 60000000).toInt();
 
-  for (var i = weekday; i <= weekday + 12; i++) {
+  for (var i = weekday; i <= weekday + 11; i++) {
     final newDateTime =
         currentDateTime.add(Duration(microseconds: planetHourInMicroseconds));
 

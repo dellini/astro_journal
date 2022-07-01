@@ -221,11 +221,15 @@ class _TarotCardDescription extends StatelessWidget {
               style: textStyle,
             ),
             const SizedBox(height: 40),
-            Text(
-              card.meaning,
-              style: AppTextStyles.secondaryTextStyle.copyWith(
-                color: const Color.fromARGB(255, 32, 32, 32),
-                fontWeight: FontWeight.bold,
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              alignment: Alignment.center,
+              child: Text(
+                card.meaning,
+                style: AppTextStyles.secondaryTextStyle.copyWith(
+                  color: const Color.fromARGB(255, 32, 32, 32),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
