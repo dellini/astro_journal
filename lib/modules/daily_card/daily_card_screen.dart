@@ -17,6 +17,7 @@ class DailyCardScreen extends StatelessWidget {
     return BlocBuilder<DailyCardCubit, DailyCardState>(
       builder: (context, state) {
         final dailyCardCubit = context.read<DailyCardCubit>();
+        final size = MediaQuery.of(context).size;
 
         return DecoratedBox(
           decoration: const BoxDecoration(
@@ -107,7 +108,7 @@ class DailyCardScreen extends StatelessWidget {
                       ),
                     ),
                     bottom: 0,
-                    height: MediaQuery.of(context).size.height * 0.4,
+                    height: size.height * 0.4,
                     left: 0,
                     right: 0,
                   ),
@@ -128,17 +129,17 @@ class DailyCardScreen extends StatelessWidget {
                   ),
                 if (state is DailyCardResult)
                   Positioned(
-                    left: MediaQuery.of(context).size.width * 0.2,
-                    right: MediaQuery.of(context).size.width * 0.2,
-                    top: MediaQuery.of(context).size.height * 0.12,
+                    left: size.width * 0.2,
+                    right: size.width * 0.2,
+                    top: size.height * 0.12,
                     child: FadeInImage(
                       placeholder: MemoryImage(kTransparentImage),
                       image: FirebaseImage(
                         state.dailyCard.imageUrl,
                         firebaseApp: Firebase.app(),
                       ),
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      height: MediaQuery.of(context).size.height * 0.45,
+                      width: size.width * 0.5,
+                      height: size.height * 0.45,
                     ),
                   ),
               ],
@@ -189,6 +190,7 @@ class _TarotCardDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     const textColor = Colors.amberAccent;
     const textWeight = FontWeight.bold;
+    final size = MediaQuery.of(context).size;
     const shadows = <Shadow>[
       Shadow(
         offset: Offset(0, 0.1),
@@ -220,9 +222,9 @@ class _TarotCardDescription extends StatelessWidget {
               'Название: ${card.name}',
               style: textStyle,
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: size.height * 0.05),
             Container(
-              width: MediaQuery.of(context).size.width * 0.6,
+              width: size.width <= 500 ? size.width * 0.8 : size.width * 0.7,
               alignment: Alignment.center,
               child: Text(
                 card.meaning,
