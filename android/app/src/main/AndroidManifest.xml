@@ -3,7 +3,6 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
    <application
         android:label="AstroJournal"
         android:name="${applicationName}"
@@ -34,5 +33,12 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+       <service
+           android:name="AstroJournalLocationService"
+           android:foregroundServiceType="location">
+       </service>
     </application>
+
+
 </manifest>
